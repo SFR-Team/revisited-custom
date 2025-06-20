@@ -1,0 +1,488 @@
+<?xml version="1.0"?>
+<CRIUTF name="Header" version="1">
+	<schema>
+		<column name="FileIdentifier" type="UINT32" />
+		<column name="Size" type="UINT32" />
+		<column name="Version" type="UINT32" />
+		<column name="Type" type="UINT8" />
+		<column name="Target" type="UINT8" />
+		<column name="AcfMd5Hash" type="VLDATA" />
+		<column name="CategoryExtension" type="UINT8" />
+		<column name="CueTable" type="VLDATA" />
+		<column name="CueNameTable" type="VLDATA" />
+		<column name="WaveformTable" type="VLDATA" />
+		<column name="AisacTable" type="VLDATA" />
+		<column name="GraphTable" type="VLDATA" />
+		<column name="GlobalAisacReferenceTable" type="VLDATA" />
+		<column name="AisacNameTable" type="VLDATA" />
+		<column name="SynthTable" type="VLDATA" />
+		<column name="SeqCommandTable" type="VLDATA" />
+		<column name="TrackTable" type="VLDATA" />
+		<column name="SequenceTable" type="VLDATA" />
+		<column name="AisacControlNameTable" type="VLDATA" />
+		<column name="AutoModulationTable" type="VLDATA" />
+		<column name="StreamAwbTocWorkOld" type="VLDATA" />
+		<column name="AwbFile" type="VLDATA" />
+		<column name="VersionString" type="STRING" />
+		<column name="CueLimitWorkTable" type="VLDATA" />
+		<column name="NumCueLimitListWorks" type="UINT16" />
+		<column name="NumCueLimitNodeWorks" type="UINT16" />
+		<column name="AcbGuid" type="VLDATA" />
+		<column name="StreamAwbHash" type="VLDATA" />
+		<column name="StreamAwbTocWork_Old" type="VLDATA" />
+		<column name="AcbVolume" type="FLOAT" />
+		<column name="StringValueTable" type="VLDATA" />
+		<column name="OutsideLinkTable" type="VLDATA" />
+		<column name="BlockSequenceTable" type="VLDATA" />
+		<column name="BlockTable" type="VLDATA" />
+		<column name="Name" type="STRING" />
+		<column name="CharacterEncodingType" type="UINT8" />
+		<column name="EventTable" type="VLDATA" />
+		<column name="ActionTrackTable" type="VLDATA" />
+		<column name="AcfReferenceTable" type="VLDATA" />
+		<column name="WaveformExtensionDataTable" type="VLDATA" />
+		<column name="BeatSyncInfoTable" type="VLDATA" />
+		<column name="CuePriorityType" type="UINT8" />
+		<column name="NumCueLimit" type="UINT16" />
+		<column name="TrackCommandTable" type="VLDATA" />
+		<column name="SynthCommandTable" type="VLDATA" />
+		<column name="TrackEventTable" type="VLDATA" />
+		<column name="SeqParameterPalletTable" type="VLDATA" />
+		<column name="TrackParameterPalletTable" type="VLDATA" />
+		<column name="SynthParameterPalletTable" type="VLDATA" />
+		<column name="SoundGeneratorTable" type="VLDATA" />
+		<column name="InstrumentPluginTrackTable" type="VLDATA" />
+		<column name="InstrumentPluginParameterTable" type="VLDATA" />
+		<column name="LipsMorphTable" type="VLDATA" />
+		<column name="ProjectKey" type="VLDATA" />
+		<column name="SoundInstruments" type="VLDATA" />
+		<column name="SoundProgramBankKey" type="VLDATA" />
+		<column name="MIDITrackTable" type="VLDATA" />
+		<column name="R35" type="UINT8" />
+		<column name="R34" type="UINT8" />
+		<column name="R33" type="UINT8" />
+		<column name="R32" type="UINT8" />
+		<column name="R31" type="UINT8" />
+		<column name="R30" type="UINT8" />
+		<column name="R29" type="UINT8" />
+		<column name="R28" type="UINT8" />
+		<column name="R27" type="UINT8" />
+		<column name="R26" type="UINT8" />
+		<column name="R25" type="UINT8" />
+		<column name="R24" type="UINT8" />
+		<column name="R23" type="UINT8" />
+		<column name="R22" type="UINT8" />
+		<column name="R21" type="UINT8" />
+		<column name="R20" type="UINT8" />
+		<column name="R19" type="UINT8" />
+		<column name="R18" type="UINT8" />
+		<column name="R17" type="UINT8" />
+		<column name="R16" type="UINT8" />
+		<column name="R15" type="UINT8" />
+		<column name="R14" type="UINT8" />
+		<column name="R13" type="UINT8" />
+		<column name="R12" type="UINT8" />
+		<column name="R11" type="UINT8" />
+		<column name="R10" type="UINT8" />
+		<column name="R9" type="UINT8" />
+		<column name="R8" type="UINT8" />
+		<column name="R7" type="UINT8" />
+		<column name="R6" type="UINT8" />
+		<column name="R5" type="UINT8" />
+		<column name="R4" type="UINT8" />
+		<column name="R3" type="UINT8" />
+		<column name="R2" type="UINT8" />
+		<column name="R1" type="UINT8" />
+		<column name="R0" type="UINT8" />
+		<column name="PaddingArea" type="VLDATA" />
+		<column name="StreamAwbTocWork" type="VLDATA" />
+		<column name="StreamAwbAfs2Header" type="VLDATA" />
+	</schema>
+	<rows>
+		<row>
+			<record value="0" name="FileIdentifier" />
+			<record value="0" name="Size" />
+			<record value="20381696" name="Version" />
+			<record value="0" name="Type" />
+			<record value="0" name="Target" />
+			<record value="55ea328c3cdf45446c9f06dad8bbe0b8" name="AcfMd5Hash" />
+			<record value="0" name="CategoryExtension" />
+			<CRIUTF name="Cue" version="1">
+				<schema>
+					<column name="CueId" type="UINT32" />
+					<column name="ReferenceType" type="UINT8" />
+					<column name="ReferenceIndex" type="UINT16" />
+					<column name="UserData" type="STRING" />
+					<column name="Worksize" type="UINT16" />
+					<column name="AisacControlMap" type="VLDATA" />
+					<column name="Length" type="UINT32" />
+					<column name="NumAisacControlMaps" type="UINT8" />
+					<column name="HeaderVisibility" type="UINT8" />
+					<column name="NumRelatedWaveforms" type="UINT16" />
+				</schema>
+				<rows>
+					<row>
+						<record value="0" name="CueId" />
+						<record value="3" name="ReferenceType" />
+						<record value="0" name="ReferenceIndex" />
+						<record value="" name="UserData" />
+						<record value="0" name="Worksize" />
+						<record value="" name="AisacControlMap" />
+						<record value="905" name="Length" />
+						<record value="0" name="NumAisacControlMaps" />
+						<record value="1" name="HeaderVisibility" />
+						<record value="1" name="NumRelatedWaveforms" />
+					</row>
+				</rows>
+			</CRIUTF>
+			<CRIUTF name="CueName" version="1">
+				<schema>
+					<column name="CueName" type="STRING" />
+					<column name="CueIndex" type="UINT16" />
+				</schema>
+				<rows>
+					<row>
+						<record value="obj_itembox" name="CueName" />
+						<record value="0" name="CueIndex" />
+					</row>
+				</rows>
+			</CRIUTF>
+			<CRIUTF name="Waveform" version="1">
+				<schema>
+					<column name="MemoryAwbId" type="UINT16" />
+					<column name="EncodeType" type="UINT8" />
+					<column name="Streaming" type="UINT8" />
+					<column name="NumChannels" type="UINT8" />
+					<column name="LoopFlag" type="UINT8" />
+					<column name="SamplingRate" type="UINT16" />
+					<column name="NumSamples" type="UINT32" />
+					<column name="ExtensionData" type="UINT16" />
+					<column name="StreamAwbPortNo" type="UINT16" />
+					<column name="StreamAwbId" type="UINT16" />
+					<column name="LipMorthIndex" type="UINT16" />
+				</schema>
+				<rows>
+					<row>
+						<record value="0" name="MemoryAwbId" />
+						<record value="2" name="EncodeType" />
+						<record value="0" name="Streaming" />
+						<record value="1" name="NumChannels" />
+						<record value="1" name="LoopFlag" />
+						<record value="44100" name="SamplingRate" />
+						<record value="39927" name="NumSamples" />
+						<record value="65535" name="ExtensionData" />
+						<record value="65535" name="StreamAwbPortNo" />
+						<record value="65535" name="StreamAwbId" />
+						<record value="65535" name="LipMorthIndex" />
+					</row>
+				</rows>
+			</CRIUTF>
+			<record value="" name="AisacTable" />
+			<record value="" name="GraphTable" />
+			<record value="" name="GlobalAisacReferenceTable" />
+			<record value="" name="AisacNameTable" />
+			<CRIUTF name="Synth" version="1">
+				<schema>
+					<column name="Type" type="UINT8" />
+					<column name="VoiceLimitGroupName" type="STRING" />
+					<column name="CommandIndex" type="UINT16" />
+					<column name="ReferenceItems" type="VLDATA" />
+					<column name="LocalAisacs" type="VLDATA" />
+					<column name="GlobalAisacStartIndex" type="UINT16" />
+					<column name="GlobalAisacNumRefs" type="UINT16" />
+					<column name="ControlWorkArea1" type="UINT16" />
+					<column name="ControlWorkArea2" type="UINT16" />
+					<column name="TrackValues" type="VLDATA" />
+					<column name="ParameterPallet" type="UINT16" />
+					<column name="ActionTrackStartIndex" type="UINT16" />
+					<column name="NumActionTracks" type="UINT16" />
+				</schema>
+				<rows>
+					<row>
+						<record value="0" name="Type" />
+						<record value="" name="VoiceLimitGroupName" />
+						<record value="0" name="CommandIndex" />
+						<record value="00010000" name="ReferenceItems" />
+						<record value="" name="LocalAisacs" />
+						<record value="65535" name="GlobalAisacStartIndex" />
+						<record value="0" name="GlobalAisacNumRefs" />
+						<record value="0" name="ControlWorkArea1" />
+						<record value="0" name="ControlWorkArea2" />
+						<record value="" name="TrackValues" />
+						<record value="65535" name="ParameterPallet" />
+						<record value="65535" name="ActionTrackStartIndex" />
+						<record value="0" name="NumActionTracks" />
+					</row>
+				</rows>
+			</CRIUTF>
+			<CRIUTF name="SequenceCommand" version="1">
+				<schema>
+					<column name="Command" type="VLDATA" />
+				</schema>
+				<rows>
+					<row>
+						<ACBCMD>
+							<op opcode="68" type="f32" value="1" />
+							<op opcode="69" type="f32" value="500" />
+							<op opcode="111" type="u32" value="10000" />
+						</ACBCMD>
+					</row>
+				</rows>
+			</CRIUTF>
+			<CRIUTF name="Track" version="1">
+				<schema>
+					<column name="EventIndex" type="UINT16" />
+					<column name="CommandIndex" type="UINT16" />
+					<column name="LocalAisacs" type="VLDATA" />
+					<column name="GlobalAisacStartIndex" type="UINT16" />
+					<column name="GlobalAisacNumRefs" type="UINT16" />
+					<column name="ParameterPallet" type="UINT16" />
+					<column name="TargetType" type="UINT8" />
+					<column name="TargetName" type="STRING" />
+					<column name="TargetId" type="UINT32" />
+					<column name="TargetAcbName" type="STRING" />
+					<column name="Scope" type="UINT8" />
+					<column name="TargetTrackNo" type="UINT16" />
+				</schema>
+				<rows>
+					<row>
+						<record value="0" name="EventIndex" />
+						<record value="0" name="CommandIndex" />
+						<record value="" name="LocalAisacs" />
+						<record value="65535" name="GlobalAisacStartIndex" />
+						<record value="0" name="GlobalAisacNumRefs" />
+						<record value="65535" name="ParameterPallet" />
+						<record value="0" name="TargetType" />
+						<record value="" name="TargetName" />
+						<record value="4294967295" name="TargetId" />
+						<record value="" name="TargetAcbName" />
+						<record value="0" name="Scope" />
+						<record value="65535" name="TargetTrackNo" />
+					</row>
+				</rows>
+			</CRIUTF>
+			<CRIUTF name="Sequence" version="1">
+				<schema>
+					<column name="PlaybackRatio" type="UINT16" />
+					<column name="NumTracks" type="UINT16" />
+					<column name="TrackIndex" type="VLDATA" />
+					<column name="CommandIndex" type="UINT16" />
+					<column name="LocalAisacs" type="VLDATA" />
+					<column name="GlobalAisacStartIndex" type="UINT16" />
+					<column name="GlobalAisacNumRefs" type="UINT16" />
+					<column name="ParameterPallet" type="UINT16" />
+					<column name="ActionTrackStartIndex" type="UINT16" />
+					<column name="NumActionTracks" type="UINT16" />
+					<column name="TrackValues" type="VLDATA" />
+					<column name="Type" type="UINT8" />
+					<column name="ControlWorkArea1" type="UINT16" />
+					<column name="ControlWorkArea2" type="UINT16" />
+					<column name="InstPluginTrackStartIndex" type="UINT16" />
+					<column name="NumInstPluginTracks" type="UINT16" />
+				</schema>
+				<rows>
+					<row>
+						<record value="100" name="PlaybackRatio" />
+						<record value="1" name="NumTracks" />
+						<record value="0000" name="TrackIndex" />
+						<record value="0" name="CommandIndex" />
+						<record value="" name="LocalAisacs" />
+						<record value="65535" name="GlobalAisacStartIndex" />
+						<record value="0" name="GlobalAisacNumRefs" />
+						<record value="65535" name="ParameterPallet" />
+						<record value="65535" name="ActionTrackStartIndex" />
+						<record value="0" name="NumActionTracks" />
+						<record value="" name="TrackValues" />
+						<record value="0" name="Type" />
+						<record value="0" name="ControlWorkArea1" />
+						<record value="0" name="ControlWorkArea2" />
+						<record value="65535" name="InstPluginTrackStartIndex" />
+						<record value="0" name="NumInstPluginTracks" />
+					</row>
+				</rows>
+			</CRIUTF>
+			<record value="" name="AisacControlNameTable" />
+			<record value="" name="AutoModulationTable" />
+			<record value="" name="StreamAwbTocWorkOld" />
+			<AWB version="2" alignment="32" id_align="2" subkey="0">
+				<files>
+					<file seq="0" path="D:/revisited-custom/resources/raw/sound/revisited_sound/se_revisited_object.acb_0x000010e0/00000.hca" />
+				</files>
+				<order>
+					<entry id="0" />
+				</order>
+			</AWB>
+			<record value="&#10;ACB Format/PC Ver.1.37.0 Build:&#10;" name="VersionString" />
+			<record value="000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" name="CueLimitWorkTable" />
+			<record value="0" name="NumCueLimitListWorks" />
+			<record value="0" name="NumCueLimitNodeWorks" />
+			<record value="d5d31c1c916cd640956fe431423f8753" name="AcbGuid" />
+			<record value="00000000000000000000000000000000" name="StreamAwbHash" />
+			<record value="" name="StreamAwbTocWork_Old" />
+			<record value="1" name="AcbVolume" />
+			<CRIUTF name="Strings" version="1">
+				<schema>
+					<column name="StringValue" type="STRING" />
+				</schema>
+				<rows>
+					<row>
+						<record value="MasterOut" name="StringValue" />
+					</row>
+					<row>
+						<record value="BUS1_reverb_01" name="StringValue" />
+					</row>
+					<row>
+						<record value="BUS2_reverb_02" name="StringValue" />
+					</row>
+					<row>
+						<record value="BUS3_BGM_reverb_01" name="StringValue" />
+					</row>
+				</rows>
+			</CRIUTF>
+			<record value="" name="OutsideLinkTable" />
+			<record value="" name="BlockSequenceTable" />
+			<record value="" name="BlockTable" />
+			<record value="se_revisited_object" name="Name" />
+			<record value="0" name="CharacterEncodingType" />
+			<record value="" name="EventTable" />
+			<record value="" name="ActionTrackTable" />
+			<CRIUTF name="AcfReference" version="1">
+				<schema>
+					<column name="Type" type="UINT8" />
+					<column name="Name" type="STRING" />
+					<column name="Name2" type="STRING" />
+					<column name="Id" type="UINT32" />
+				</schema>
+				<rows>
+					<row>
+						<record value="3" name="Type" />
+						<record value="se" name="Name" />
+						<record value="" name="Name2" />
+						<record value="1" name="Id" />
+					</row>
+					<row>
+						<record value="3" name="Type" />
+						<record value="in_game_se" name="Name" />
+						<record value="" name="Name2" />
+						<record value="7" name="Id" />
+					</row>
+					<row>
+						<record value="9" name="Type" />
+						<record value="MasterOut" name="Name" />
+						<record value="" name="Name2" />
+						<record value="4294967295" name="Id" />
+					</row>
+					<row>
+						<record value="9" name="Type" />
+						<record value="BUS1_reverb_01" name="Name" />
+						<record value="" name="Name2" />
+						<record value="4294967295" name="Id" />
+					</row>
+					<row>
+						<record value="9" name="Type" />
+						<record value="BUS2_reverb_02" name="Name" />
+						<record value="" name="Name2" />
+						<record value="4294967295" name="Id" />
+					</row>
+					<row>
+						<record value="9" name="Type" />
+						<record value="BUS3_BGM_reverb_01" name="Name" />
+						<record value="" name="Name2" />
+						<record value="4294967295" name="Id" />
+					</row>
+				</rows>
+			</CRIUTF>
+			<record value="" name="WaveformExtensionDataTable" />
+			<record value="" name="BeatSyncInfoTable" />
+			<record value="255" name="CuePriorityType" />
+			<record value="0" name="NumCueLimit" />
+			<CRIUTF name="TrackCommand" version="1">
+				<schema>
+					<column name="Command" type="VLDATA" />
+				</schema>
+				<rows>
+					<row>
+						<ACBCMD>
+							<op opcode="87" type="u16" value="60" />
+						</ACBCMD>
+					</row>
+				</rows>
+			</CRIUTF>
+			<CRIUTF name="SynthCommand" version="1">
+				<schema>
+					<column name="Command" type="VLDATA" />
+				</schema>
+				<rows>
+					<row>
+						<ACBCMD>
+							<op opcode="40" type="u32" value="655460" />
+						</ACBCMD>
+					</row>
+				</rows>
+			</CRIUTF>
+			<CRIUTF name="TrackEvent" version="1">
+				<schema>
+					<column name="Command" type="VLDATA" />
+				</schema>
+				<rows>
+					<row>
+						<ACBCMD>
+							<op opcode="2000" type="u32" value="131072" />
+							<op opcode="0" type="noval" value="0" />
+						</ACBCMD>
+					</row>
+				</rows>
+			</CRIUTF>
+			<record value="" name="SeqParameterPalletTable" />
+			<record value="" name="TrackParameterPalletTable" />
+			<record value="" name="SynthParameterPalletTable" />
+			<record value="" name="SoundGeneratorTable" />
+			<record value="" name="InstrumentPluginTrackTable" />
+			<record value="" name="InstrumentPluginParameterTable" />
+			<record value="" name="LipsMorphTable" />
+			<record value="c7b6bf08dec63c87820e68fd5462c34f" name="ProjectKey" />
+			<record value="" name="SoundInstruments" />
+			<record value="" name="SoundProgramBankKey" />
+			<record value="" name="MIDITrackTable" />
+			<record value="0" name="R35" />
+			<record value="0" name="R34" />
+			<record value="0" name="R33" />
+			<record value="0" name="R32" />
+			<record value="0" name="R31" />
+			<record value="0" name="R30" />
+			<record value="0" name="R29" />
+			<record value="0" name="R28" />
+			<record value="0" name="R27" />
+			<record value="0" name="R26" />
+			<record value="0" name="R25" />
+			<record value="0" name="R24" />
+			<record value="0" name="R23" />
+			<record value="0" name="R22" />
+			<record value="0" name="R21" />
+			<record value="0" name="R20" />
+			<record value="0" name="R19" />
+			<record value="0" name="R18" />
+			<record value="0" name="R17" />
+			<record value="0" name="R16" />
+			<record value="0" name="R15" />
+			<record value="0" name="R14" />
+			<record value="0" name="R13" />
+			<record value="0" name="R12" />
+			<record value="0" name="R11" />
+			<record value="0" name="R10" />
+			<record value="0" name="R9" />
+			<record value="0" name="R8" />
+			<record value="0" name="R7" />
+			<record value="0" name="R6" />
+			<record value="0" name="R5" />
+			<record value="0" name="R4" />
+			<record value="0" name="R3" />
+			<record value="0" name="R2" />
+			<record value="0" name="R1" />
+			<record value="0" name="R0" />
+			<record value="" name="PaddingArea" />
+			<record value="" name="StreamAwbTocWork" />
+			<record value="" name="StreamAwbAfs2Header" />
+		</row>
+	</rows>
+</CRIUTF>

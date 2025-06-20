@@ -1,0 +1,28 @@
+target_precompile_headers(mod
+    PRIVATE
+        Pch.h
+)
+target_sources(mod
+    PRIVATE
+        version.rc
+        DllMain.cpp
+        Mod.cpp
+        objects/itemBox/ObjItemBox.cpp
+        objects/itemBox/ObjItemBoxSpawner.cpp
+        objects/itemBox/UIItemBox.cpp
+        player/BlackboardRevisited.cpp
+        objects/ObjHomingGismo.cpp
+        objects/custom/ObjTestBoss.cpp
+    PRIVATE FILE_SET HEADERS FILES
+        Pch.h
+        utilities/Helpers.h
+        utilities/GameHelpers.h
+        objects/bootstrap.h
+        objects/itemBox/ObjItemBoxSpawner.h
+        objects/itemBox/ObjItemBox.h
+        objects/itemBox/UIItemBox.h
+        player/bootstrap.h
+        player/BlackboardRevisited.h
+        objects/ObjHomingGismo.h
+        objects/custom/ObjTestBoss.h
+)
