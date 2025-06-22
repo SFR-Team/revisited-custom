@@ -20,7 +20,7 @@ using namespace revisited::objects;
 using namespace revisited::player;
 
 
-GAMEOBJECT_CLASS(ObjItemBox, Common)
+GAMEOBJECT_CLASS_RFL(ObjItemBox, Common)
 
 GameObject* ObjItemBox::Create(IAllocator* allocator) {
 	return new (std::align_val_t(16), allocator) ObjItemBox{ allocator };
@@ -194,6 +194,10 @@ void ObjItemBox::DestroyCallback()
 	gocSound->Play3D("obj_itembox", GetComponent<GOCTransform>()->GetFrame().fullTransform.position, 0);
 	GetComponent<GOCEffect>()->CreateEffect("ef_bo_rifle01_step01_ge01", nullptr);
 	ui->SetVisible(type);
+
+	MsgTransitIslandStage testMsg{};
+	testMsg.stageCode = "w1r03";
+	gameManager->SendMessageImm(testMsg);
 }
 
 void ObjItemBox::GivePlayerRings(unsigned int amount)

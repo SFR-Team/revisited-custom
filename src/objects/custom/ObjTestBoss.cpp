@@ -26,7 +26,7 @@ RFL_TYPE_INFO_FUNCS(ObjTestBossSpawner, {
 
 RFL_TYPE_INFO(ObjTestBossSpawner);
 
-GAMEOBJECT_CLASS(ObjTestBoss, Test)
+GAMEOBJECT_CLASS_RFL(ObjTestBoss, Test)
 
 GameObject* ObjTestBoss::Create(csl::fnd::IAllocator* allocator) {
 	return new (std::align_val_t(16), allocator) ObjTestBoss{ allocator };

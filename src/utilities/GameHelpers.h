@@ -74,7 +74,7 @@ static Eigen::Affine3f TransformToAffine3f(const csl::math::Transform& transform
         sizeof(NAME), \
     };
 
-#define GAMEOBJECT_CLASS(NAME, CATEGORY) \
+#define GAMEOBJECT_CLASS_RFL(NAME, CATEGORY) \
     const hh::fnd::RflClassMember::Value gameObjectClassAttributes[]{ \
         { "category", hh::fnd::RflClassMember::Type::CSTRING, #CATEGORY }, \
     }; \

@@ -42,7 +42,7 @@ RFL_TYPE_INFO_FUNCS_CLEAN(ObjHomingGismoSpawner, {
 
 RFL_TYPE_INFO(ObjHomingGismoSpawner)
 
-GAMEOBJECT_CLASS(ObjHomingGismo, Common);
+GAMEOBJECT_CLASS_RFL(ObjHomingGismo, Common);
 
 GameObject* ObjHomingGismo::Create(IAllocator* allocator) {
 	return new (std::align_val_t(16), allocator) ObjHomingGismo{ allocator };
