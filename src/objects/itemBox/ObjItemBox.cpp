@@ -74,7 +74,7 @@ void ObjItemBox::AddCallback(GameManager* gameManager)
 	if (!gameManager->GetGameObject("UIItemBox"))
 		gameManager->AddGameObject(GameObject::Create<UIItemBox>(pAllocator), "UIItemBox", false, nullptr, nullptr);
 
-	ui = (UIItemBox*)gameManager->GetGameObject("UIItemBox");
+	ui = { (UIItemBox*)gameManager->GetGameObject("UIItemBox") };
 
 	auto* resMgr = ResourceManager::GetInstance();
 	auto* worldData = GetWorldDataByClass<ObjItemBoxSpawner>();
@@ -194,10 +194,6 @@ void ObjItemBox::DestroyCallback()
 	gocSound->Play3D("obj_itembox", GetComponent<GOCTransform>()->GetFrame().fullTransform.position, 0);
 	GetComponent<GOCEffect>()->CreateEffect("ef_bo_rifle01_step01_ge01", nullptr);
 	ui->SetVisible(type);
-
-	MsgTransitIslandStage testMsg{};
-	testMsg.stageCode = "w1r03";
-	gameManager->SendMessageImm(testMsg);
 }
 
 void ObjItemBox::GivePlayerRings(unsigned int amount)

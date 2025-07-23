@@ -22,6 +22,7 @@ BOOL WINAPI DllMain(_In_ HINSTANCE hInstance, _In_ DWORD reason, _In_ LPVOID res
 	{
 	case DLL_PROCESS_ATTACH:
 		INSTALL_HOOK(GameModeBootInit);
+		INSTALL_HOOK(GameModeCyberStageInit);
 		INSTALL_HOOK(LevelManagerSetup);
 		break;
 	case DLL_PROCESS_DETACH:

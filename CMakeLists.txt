@@ -11,7 +11,7 @@ string(TIMESTAMP PROJECT_BUILD_DATE "%Y-%m-%d")
 
 set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>")
 
-set(GAME_FOLDER "C:\\Steam\\steamapps\\common\\SonicFrontiers" CACHE STRING "The location of your game folder.")
+set(GAME_FOLDER "E:\\Steam\\steamapps\\common\\SonicFrontiers" CACHE STRING "The location of your game folder.")
 cmake_path(SET GAME_FOLDER_NORMALIZED NORMALIZE ${GAME_FOLDER})
 cmake_path(APPEND GAME_FOLDER_NORMALIZED "SonicFrontiers.exe" OUTPUT_VARIABLE RANGERS_GAME_EXECUTABLE)
 

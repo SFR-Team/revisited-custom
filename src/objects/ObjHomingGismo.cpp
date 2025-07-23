@@ -31,7 +31,7 @@ RFL_CLASS(ObjHomingGismoSpawner);
 RFL_TYPE_INFO_FUNCS_CLEAN(ObjHomingGismoSpawner, {
 	new (&self->modelName) csl::ut::VariableString{ allocator };
 	new (&self->particleName) csl::ut::VariableString{ allocator };
-	new (&self->soundName) csl::ut::VariableString{allocator};
+	new (&self->soundName) csl::ut::VariableString{ allocator };
 }
 {
 	self->modelName.~VariableString();

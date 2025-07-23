@@ -12,7 +12,9 @@ target_sources(mod
         objects/itemBox/UIItemBox.cpp
         player/BlackboardRevisited.cpp
         objects/ObjHomingGismo.cpp
-        objects/custom/ObjTestBoss.cpp
+        objects/titlecard/rfl/Stage.cpp
+        objects/titlecard/rfl/StageIntro.cpp
+        objects/titlecard/UIStageIntro.cpp
     PRIVATE FILE_SET HEADERS FILES
         Pch.h
         utilities/Helpers.h
@@ -21,8 +23,9 @@ target_sources(mod
         objects/itemBox/ObjItemBoxSpawner.h
         objects/itemBox/ObjItemBox.h
         objects/itemBox/UIItemBox.h
+        objects/titlecard/UIStageIntro.h
         player/bootstrap.h
         player/BlackboardRevisited.h
         objects/ObjHomingGismo.h
-        objects/custom/ObjTestBoss.h
-)
+        objects/npc/ObjKocoNpc.h
+ )
