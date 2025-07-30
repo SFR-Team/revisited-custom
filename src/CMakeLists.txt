@@ -7,25 +7,30 @@ target_sources(mod
         version.rc
         DllMain.cpp
         Mod.cpp
+        objects/dv/DvIslandIntro.cpp
         objects/itemBox/ObjItemBox.cpp
         objects/itemBox/ObjItemBoxSpawner.cpp
         objects/itemBox/UIItemBox.cpp
-        player/BlackboardRevisited.cpp
-        objects/ObjHomingGismo.cpp
         objects/titlecard/rfl/Stage.cpp
         objects/titlecard/rfl/StageIntro.cpp
         objects/titlecard/UIStageIntro.cpp
+        objects/ObjHomingGismo.cpp
+        player/BlackboardRevisited.cpp
+        dv/DvElementIslandIntro.cpp
     PRIVATE FILE_SET HEADERS FILES
         Pch.h
         utilities/Helpers.h
         utilities/GameHelpers.h
         objects/bootstrap.h
+        objects/dv/DvIslandIntro.h
         objects/itemBox/ObjItemBoxSpawner.h
         objects/itemBox/ObjItemBox.h
         objects/itemBox/UIItemBox.h
         objects/titlecard/UIStageIntro.h
-        player/bootstrap.h
-        player/BlackboardRevisited.h
         objects/ObjHomingGismo.h
         objects/npc/ObjKocoNpc.h
- )
+        player/bootstrap.h
+        player/BlackboardRevisited.h
+        dv/bootstrap.h
+        dv/DvElementIslandIntro.h
+)

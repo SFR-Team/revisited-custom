@@ -122,6 +122,9 @@ void ObjItemBox::AddCallback(GameManager* gameManager)
 	auto* model = resMgr->GetResource<ResModel>(modelName);
 	GOCVisualModelDescription gocVisualModelDesc{};
 	gocVisualModelDesc.model = model;
+	gocVisualModelDesc.flags.set(GOCVisualModelDescription::Flag::NO_MATERIAL_OPTIMIZE);
+	gocVisualModelDesc.useGISG = true;
+	gocVisualModelDesc.useGIPRT = true;
 	auto* gocVisual = CreateComponent<GOCVisualModel>();
 	gocVisual->Setup(gocVisualModelDesc);
 	AddComponent(gocVisual);
