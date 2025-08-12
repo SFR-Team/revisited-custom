@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 
 HOOK(void, __fastcall, ResultAddCallback, 0x140AC6B30, app::ui::UIResult* self, hh::game::GameManager* gameManager) {
 	originalResultAddCallback(self, gameManager);
