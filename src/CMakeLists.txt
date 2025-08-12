@@ -29,7 +29,7 @@ target_sources(mod
         objects/titlecard/UIStageIntro.h
         objects/ObjHomingGismo.h
         objects/ResultHooks.h
-        objects/PlayerHooks.h
+        objects/UIGameCockpitHooks.h
         objects/npc/ObjKocoNpc.h
         player/bootstrap.h
         player/BlackboardRevisited.h
