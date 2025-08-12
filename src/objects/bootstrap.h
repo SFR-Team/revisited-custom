@@ -4,6 +4,8 @@
 #include "itemBox/UIItemBox.h"
 #include "ObjHomingGismo.h"
 #include "titlecard/UIStageIntro.h"
+#include "ResultHooks.h"
+#include "PlayerHooks.h"
 //#include "custom/ObjTestBoss.h"
 
 HOOK(uint64_t, __fastcall, GameModeCyberStageInit, 0x1401B4100, app::game::GameMode* self) {
@@ -45,5 +47,9 @@ namespace revisited::objects {
 		resLoader->LoadResource(uri, hh::snd::ResAtomCueSheet::GetTypeInfo(), 0, 0, locale);
 
 		INSTALL_HOOK(GameModeCyberStageInit)
+
+		INSTALL_HOOK(ResultAddCallback)
+
+		INSTALL_HOOK(SetSuperSonicState)
 	}
 }

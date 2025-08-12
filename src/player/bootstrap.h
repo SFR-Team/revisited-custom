@@ -26,7 +26,6 @@ HOOK(uint64_t, __fastcall, MessageHandler, 0x14091CF80, app::player::GOCPlayerHs
 		}
 	}
 	return originalMessageHandler(self, message);
-
 }
 
 HOOK(bool, __fastcall, GOCAnimatorChangeState, 0x140E92B00, hh::anim::GOCAnimator* self, const char* stateName) {

@@ -28,6 +28,8 @@ target_sources(mod
         objects/itemBox/UIItemBox.h
         objects/titlecard/UIStageIntro.h
         objects/ObjHomingGismo.h
+        objects/ResultHooks.h
+        objects/PlayerHooks.h
         objects/npc/ObjKocoNpc.h
         player/bootstrap.h
         player/BlackboardRevisited.h
