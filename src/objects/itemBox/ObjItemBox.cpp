@@ -4,6 +4,7 @@
 
 using namespace csl::fnd;
 
+using namespace hh::anim;
 using namespace hh::eff;
 using namespace hh::fnd;
 using namespace hh::game;
@@ -111,29 +112,37 @@ void ObjItemBox::AddCallback(GameManager* gameManager)
 		break;
 	}
 
-	const char* modelType = "ground";
+	const char* type = "ground";
 
 	if (worldData->isAir)
-		modelType = "float";
+		type = "float";
 
-	char modelName[32];
-	snprintf(modelName, sizeof(modelName), "%s%s", bmodelName, modelType);
+	char modelName[64];
+	snprintf(modelName, sizeof(modelName), "%s%s", bmodelName, type);
+
+	char skelName[64];
+	snprintf(skelName, sizeof(skelName), "cmn_obj_itembox%s_skeleton", type);
 
 	auto* model = resMgr->GetResource<ResModel>(modelName);
+	auto* skeleton = resMgr->GetResource<ResSkeletonPxd>(skelName);
 	GOCVisualModelDescription gocVisualModelDesc{};
 	gocVisualModelDesc.model = model;
+	gocVisualModelDesc.skeleton = skeleton;
 	gocVisualModelDesc.flags.set(GOCVisualModelDescription::Flag::NO_MATERIAL_OPTIMIZE);
 	gocVisualModelDesc.useGISG = true;
 	gocVisualModelDesc.useGIPRT = true;
+	gocVisualModelDesc.nameHash = csl::ut::HashString("mainModel");
 	auto* gocVisual = CreateComponent<GOCVisualModel>();
 	gocVisual->Setup(gocVisualModelDesc);
 	AddComponent(gocVisual);
 
 	GOCSphereCollider::SetupInfo gocColliderDesc{};
 	gocColliderDesc.radius = .5f;
-	gocColliderDesc.filterCategory = 65554;
-	gocColliderDesc.unk4 = 0x4008000;
-	gocColliderDesc.SetPosition(csl::math::Vector3{ 0.0, 0.8f, 0.0 });
+	gocColliderDesc.filterCategory = 18;
+	gocColliderDesc.unk2 = 0;
+	gocColliderDesc.unk3 |= 1;
+	gocColliderDesc.unk4 = 0x8000;
+	gocColliderDesc.SetPosition(csl::math::Vector3{ 0, 0.8f, 0 });
 
 	auto* gocCollider = CreateComponent<GOCSphereCollider>();
 	gocCollider->Setup(gocColliderDesc);
@@ -148,6 +157,28 @@ void ObjItemBox::AddCallback(GameManager* gameManager)
 	auto* gocEffect = CreateComponent<GOCEffect>();
 	gocEffect->Setup(gocEffectDesc);
 	AddComponent(gocEffect);
+
+	GOCAnimationSimple::SetupInfo gocAnimationSimpleDesc{};
+	gocAnimationSimpleDesc.skeleton = skeleton;
+	gocAnimationSimpleDesc.animationCount = 2;
+	gocAnimationSimpleDesc.setUnk6Flag = 1;
+	gocAnimationSimpleDesc.gocVisualModelNameHash = csl::ut::HashString("mainModel");
+	auto* gocAnimationSimple = CreateComponent<GOCAnimationSimple>();
+	gocAnimationSimple->Setup(gocAnimationSimpleDesc);
+	AddComponent(gocAnimationSimple);
+
+	char idleName[64];
+	snprintf(idleName, sizeof(idleName), "cmn_obj_itembox%s_roll", type);
+	auto* idleAnimation = resMgr->GetResource<ResAnimationPxd>(idleName);
+
+	char getName[64];
+	snprintf(getName, sizeof(getName), "cmn_obj_itembox%s_get", type);
+	auto* getAnimation = resMgr->GetResource<ResAnimationPxd>(getName);
+
+	gocAnimationSimple->Add("idle", idleAnimation, PlayPolicy::NORMAL);
+	gocAnimationSimple->Add("get", getAnimation, PlayPolicy::NORMAL);
+
+	gocAnimationSimple->Play("idle");
 }
 
 void ObjItemBox::DestroyCallback()
@@ -193,7 +224,8 @@ void ObjItemBox::DestroyCallback()
 	}
 	}
 
-	SetEnabled(false);
+	GetComponent<GOCAnimationSimple>()->Play("get");
+	//SetEnabled(false);
 	gocSound->Play3D("obj_itembox", GetComponent<GOCTransform>()->GetFrame().fullTransform.position, 0);
 	GetComponent<GOCEffect>()->CreateEffect("ef_bo_rifle01_step01_ge01", nullptr);
 	ui->SetVisible(type);
