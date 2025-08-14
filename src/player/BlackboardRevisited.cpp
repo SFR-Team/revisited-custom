@@ -46,7 +46,7 @@ void BlackboardRevisited::GiveInvincibility()
 	flags.set(Flags::ULTRA, true);
 	ultraTime = 20;
 	if (auto* soundDirector = GameManager::GetInstance()->GetService<SoundDirector>())
-		soundDirector->PlayBgm({ "bgm_maintheme", 2, 0.0f, 0.0f, 0.0f, 1.0f, 0, 0x10001, 0 });
+		soundDirector->PlayBgm({ "UltraSound", 2, 0.0f, 0.0f, 0.0f, 1.0f, 0, 0x10001, 0 });
 }
 
 void BlackboardRevisited::GiveMagnetic()
@@ -60,7 +60,7 @@ void BlackboardRevisited::GiveMagnetic()
 
 void BlackboardRevisited::GiveInfiniteBoost()
 {
-	if(!boostPlugin)
+	if (!boostPlugin)
 		boostPlugin = GetPlayer()->GetComponent<GOCPlayerHsm>()->statePluginManager->GetPlugin<StatePluginBoost>();
 	if (!uiStaminaGaugeCtx)
 		uiStaminaGaugeCtx = ((GOCTinyFsm2<UIStaminaGaugeContext>*)GameManager::GetInstance()->GetGameObject("UIGameCockpit")->components[8])->targetObject;

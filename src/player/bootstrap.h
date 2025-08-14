@@ -34,6 +34,12 @@ HOOK(bool, __fastcall, GOCAnimatorChangeState, 0x140E92B00, hh::anim::GOCAnimato
 
 namespace revisited::player {
 	void bootstrap() {
+		auto* allocator = hh::fnd::MemoryRouter::GetModuleAllocator();
+		auto* resLoader = hh::fnd::ResourceLoader::Create(allocator);
+		hh::fnd::InplaceTempUri<> uri{ "sound/revisited_sound/bgm_revisited.acb" };
+		hh::fnd::ResourceLoader::Locale locale{};
+		resLoader->LoadResource(uri, hh::snd::ResAtomCueSheet::GetTypeInfo(), 0, 0, locale);
+
 		INSTALL_HOOK(PlayerAddCallback);
 		INSTALL_HOOK(MessageHandler);
 

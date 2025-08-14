@@ -40,7 +40,7 @@ void* ObjItemBox::GetRuntimeTypeInfo() const
 bool ObjItemBox::ProcessMessage(Message& message)
 {
 	switch (message.ID) {
-	case MessageID::COLLIDER_QUERY_ENTER: {
+	case MessageID::TRIGGER_ENTER: {
 		DestroyCallback();
 		return true;
 	}
@@ -220,12 +220,18 @@ void ObjItemBox::DestroyCallback()
 	}
 
 	GetComponent<GOCAnimationSimple>()->Play("get");
-	//SetEnabled(false);
+
+	SetEnabled(false);
+
 	gocSound->Play3D("obj_itembox", GetComponent<GOCTransform>()->GetFrame().fullTransform.position, 0);
-	GetComponent<GOCEffect>()->CreateEffect("ef_bo_rifle01_step01_ge01", nullptr);
-	if (auto* ui = (UIItemBox*)gameManager->GetGameObject("UIItemBox"))
+
+	GetComponent<GOCEffect>()->CreateEffect("ef_ob_itembox_get01", nullptr);
+
+	if (auto* ui = (UIItemBox*)gameManager->GetGameObject("UIItemBox")) 
 		ui->SetVisible(type);
+
 	GetComponent<GOCVibration>()->PlayVibration("low", 0);
+
 	SendBounceMessage();
 }
 
