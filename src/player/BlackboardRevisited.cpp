@@ -28,6 +28,16 @@ void BlackboardRevisited::PreGameUpdateCallback(GameManager* gameManager, const 
 		uiStaminaGaugeCtx->unk1 &= ~0x04;
 		flags.set(Flags::INFINITE_BOOST, false);
 	}
+
+	if (flags.test(Flags::MAGNETIC))
+		if (auto* moveSphereCollider = GetPlayer()->GetComponent<app::physics::GOCMoveSphereColliderQuery>())
+			moveSphereCollider->radius = 12.5f;
+}
+
+void BlackboardRevisited::CutsceneEnd(const char* cutsceneName)
+{
+	if (flags.test(Flags::MAGNETIC))
+		PlayEffects("shield", shieldEffects);
 }
 
 void BlackboardRevisited::GiveInvincibility()
@@ -41,6 +51,9 @@ void BlackboardRevisited::GiveInvincibility()
 
 void BlackboardRevisited::GiveMagnetic()
 {
+	if (flags.test(Flags::MAGNETIC))
+		return;
+
 	PlayEffects("shield", shieldEffects);
 	flags.set(Flags::MAGNETIC, true);
 }
@@ -62,6 +75,8 @@ void BlackboardRevisited::RemoveMagnetic()
 {
 	StopEffects("shield", shieldEffects);
 	flags.set(Flags::MAGNETIC, false);
+	if (auto* moveSphereCollider = GetPlayer()->GetComponent<app::physics::GOCMoveSphereColliderQuery>())
+		moveSphereCollider->radius = 1.6f;
 }
 
 template<size_t T>

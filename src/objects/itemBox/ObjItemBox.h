@@ -9,15 +9,16 @@ namespace revisited::objects {
 
 		ObjItemBoxSpawner::ItemType type;
 		bool canAirDashRocket;
-		hh::fnd::Handle<UIItemBox> ui;
 	public:
 		virtual void* GetRuntimeTypeInfo() const override;
 		virtual bool ProcessMessage(hh::fnd::Message& message) override;
 		virtual void AddCallback(hh::game::GameManager* gameManager) override;
 
 		void DestroyCallback();
-		void GivePlayerRings(unsigned int amount);
+		inline void GivePlayerRings(unsigned int amount) { GiveObject(amount, app::MsgTakeObject::Type::RING); }
 		void GiveObject(unsigned int amount, app::MsgTakeObject::Type type);
 		void SetEnabled(bool enabled);
+		csl::math::Vector3 CalculateBounce();
+		void SendBounceMessage();
 	};
 }

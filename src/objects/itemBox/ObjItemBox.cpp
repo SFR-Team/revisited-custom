@@ -44,12 +44,6 @@ bool ObjItemBox::ProcessMessage(Message& message)
 		DestroyCallback();
 		return true;
 	}
-	case MessageID::DAMAGE: {
-		auto& msg = (MsgDamage&)message;
-		msg.dword110 |= 1;
-		DestroyCallback();
-		return true;
-	}
 	case MessageID::GET_HOMING_TARGET_INFO: {
 		auto& msg = (MsgGetHomingTargetInfo&)message;
 		csl::math::Vector3 pos{ GetComponent<GOCTransform>()->GetFrame().fullTransform.position + csl::math::Vector3{0, GetComponent<GOCCollider>()->localWorldPosition.m_Position.y(), 0}};
@@ -74,8 +68,6 @@ void ObjItemBox::AddCallback(GameManager* gameManager)
 {
 	if (!gameManager->GetGameObject("UIItemBox"))
 		gameManager->AddGameObject(GameObject::Create<UIItemBox>(pAllocator), "UIItemBox", false, nullptr, nullptr);
-
-	ui = { (UIItemBox*)gameManager->GetGameObject("UIItemBox") };
 
 	auto* resMgr = ResourceManager::GetInstance();
 	auto* worldData = GetWorldDataByClass<ObjItemBoxSpawner>();
@@ -140,7 +132,7 @@ void ObjItemBox::AddCallback(GameManager* gameManager)
 	gocColliderDesc.radius = .5f;
 	gocColliderDesc.filterCategory = 18;
 	gocColliderDesc.unk2 = 0;
-	gocColliderDesc.unk3 |= 1;
+	gocColliderDesc.overlapFlags.set(GOCCollider::OverlapFlag::ENTER);
 	gocColliderDesc.unk4 = 0x8000;
 	gocColliderDesc.SetPosition(csl::math::Vector3{ 0, 0.8f, 0 });
 
@@ -179,6 +171,9 @@ void ObjItemBox::AddCallback(GameManager* gameManager)
 	gocAnimationSimple->Add("get", getAnimation, PlayPolicy::NORMAL);
 
 	gocAnimationSimple->Play("idle");
+
+	auto* gocVibration = CreateComponent<GOCVibration>();
+	AddComponent(gocVibration);
 }
 
 void ObjItemBox::DestroyCallback()
@@ -228,12 +223,10 @@ void ObjItemBox::DestroyCallback()
 	//SetEnabled(false);
 	gocSound->Play3D("obj_itembox", GetComponent<GOCTransform>()->GetFrame().fullTransform.position, 0);
 	GetComponent<GOCEffect>()->CreateEffect("ef_bo_rifle01_step01_ge01", nullptr);
-	ui->SetVisible(type);
-}
-
-void ObjItemBox::GivePlayerRings(unsigned int amount)
-{
-	GiveObject(amount, MsgTakeObject::Type::RING);
+	if (auto* ui = (UIItemBox*)gameManager->GetGameObject("UIItemBox"))
+		ui->SetVisible(type);
+	GetComponent<GOCVibration>()->PlayVibration("low", 0);
+	SendBounceMessage();
 }
 
 void ObjItemBox::GiveObject(unsigned int amount, MsgTakeObject::Type type)
@@ -251,6 +244,53 @@ void ObjItemBox::SetEnabled(bool enabled)
 	GetComponent<GOCActivator>()->enabled = enabled;
 	GetComponent<GOCSphereCollider>()->SetEnabled(enabled);
 	GetComponent<GOCVisualModel>()->SetVisible(enabled);
+}
+
+csl::math::Vector3 ObjItemBox::CalculateBounce()
+{
+	const float speedMax = 5;
+	const float speedMin = 0;
+	const float upSpeed = 10;
+
+	csl::math::Vector3 playerVelocity{};
+
+	if (auto* levelInfo = GetService<app::level::LevelInfo>())
+		if (auto* playerInfo = levelInfo->GetPlayerInformation(0))
+			playerVelocity = playerInfo->vector490.value();
+
+	csl::math::Vector3 horizontalVel = playerVelocity;
+	horizontalVel.y() = 0;
+
+	float horizontalSpeed = horizontalVel.norm();
+
+	float clampedSpeed = horizontalSpeed;
+	if (speedMax >= horizontalSpeed) 
+		if (horizontalSpeed < speedMin) 
+			clampedSpeed = speedMin;
+	else
+		clampedSpeed = speedMax;
+
+	if (speedMin <= 0.0f) clampedSpeed = speedMax;
+
+	csl::math::Vector3 bounceVel = upSpeed * csl::math::Vector3::UnitY();
+
+	if (horizontalSpeed > 1e-8f) {
+		csl::math::Vector3 horizontalDir = horizontalVel / horizontalSpeed;
+		bounceVel += horizontalDir * clampedSpeed;
+	}
+
+	return bounceVel;
+}
+
+void ObjItemBox::SendBounceMessage()
+{
+	csl::math::Vector3 bounceVel = CalculateBounce();
+	MsgSpringImpulse message{};
+	message.velocity = bounceVel;
+	message.outOfControlTime = 0.1f;
+	message.keepVelocityTime = 0.1f;
+	message.unk3 = 2082;
+	ut::SendMessageImmToPlayerObject(*this, 0, message);
 }
 
 const GameObjectClass* ObjItemBox::GetClass()

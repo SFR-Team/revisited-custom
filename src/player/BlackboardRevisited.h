@@ -5,11 +5,12 @@ using namespace hh::game;
 using namespace hh::eff;
 using namespace hh::fnd;
 
+using namespace app::evt;
 using namespace app::player;
 
 
 namespace revisited::player {
-	class BlackboardRevisited : public BlackboardContent, public GameUpdateListener {
+	class BlackboardRevisited : public BlackboardContent, public GameUpdateListener, public EventPlayerListener {
 	public:
 		static constexpr const char* name = "BlackboardRevisited";
 
@@ -42,6 +43,7 @@ namespace revisited::player {
 		}
 
 		virtual void PreGameUpdateCallback(GameManager* gameManager, const SUpdateInfo& updateInfo) override;
+		virtual void CutsceneEnd(const char* cutsceneName) override;
 
 		void GiveInvincibility();
 		void GiveMagnetic();
@@ -52,8 +54,20 @@ namespace revisited::player {
 		template<size_t T>
 		void StopEffects(const char* name, const char* const (&names)[T]);
 
-		BlackboardRevisited(csl::fnd::IAllocator* allocator) : BlackboardContent{ allocator }, flags{}, ultraTime{ 0 } { hh::game::GameManager::GetInstance()->AddGameUpdateListener(this); }
-		virtual ~BlackboardRevisited() override { hh::game::GameManager::GetInstance()->RemoveGameUpdateListener(this); }
+		BlackboardRevisited(csl::fnd::IAllocator* allocator) : BlackboardContent{ allocator }, flags{}, ultraTime{ 0 } 
+		{ 
+			auto* gameManager = hh::game::GameManager::GetInstance();
+			gameManager->AddGameUpdateListener(this); 
+			if (auto* evtPlayer = gameManager->GetService<EventPlayer>())
+				evtPlayer->AddListener(this);
+		}
+		virtual ~BlackboardRevisited() override 
+		{ 
+			auto* gameManager = hh::game::GameManager::GetInstance();
+			gameManager->RemoveGameUpdateListener(this);
+			if (auto* evtPlayer = gameManager->GetService<EventPlayer>())
+				evtPlayer->RemoveListener(this);
+		}
 		static BlackboardRevisited* Create(csl::fnd::IAllocator* allocator) {
 			return new (std::align_val_t(16),  allocator) BlackboardRevisited{ allocator };
 		}
