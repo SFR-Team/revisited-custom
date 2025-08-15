@@ -19,10 +19,11 @@ namespace revisited::objects {
 	class UIStageIntro : public hh::game::GameObject {
 		GAMEOBJECT_CLASS_DECLARATION(UIStageIntro);
 
-		Stage* stageIntro;
+		Stage stageIntro;
 		hh::fnd::Reference<hh::ui::LayerController> lc{};
 		float visibleCounter{ 0 };
 		float fadeCounter{ -1 };
+		bool hasStageIntro{ false };
 	public:
 		virtual void AddCallback(hh::game::GameManager* gameManager) override;
 		virtual void Update(hh::fnd::UpdatingPhase phase, const hh::fnd::SUpdateInfo& updateInfo) override;

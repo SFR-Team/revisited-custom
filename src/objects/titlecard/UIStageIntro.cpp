@@ -15,7 +15,7 @@ GameObject* UIStageIntro::Create(IAllocator* allocator) {
 	return new (std::align_val_t(16), allocator) UIStageIntro{ allocator };
 }
 
-UIStageIntro::UIStageIntro(IAllocator* allocator) : GameObject{ allocator } {
+UIStageIntro::UIStageIntro(IAllocator* allocator) : GameObject{ allocator }, stageIntro{ allocator } {
 	SetLayer(19);
 	SetUpdateFlag(UpdatingPhase::PRE_ANIM, true);
 }
@@ -46,7 +46,8 @@ void UIStageIntro::AddCallback(GameManager* gameManager)
 	const char* stageId = levelInfo->stageData->cyberName.c_str();
 	for (auto& x : stageIntroRes->GetData()->stages)
 		if (!strcmp(x.stageId, stageId)) {
-			stageIntro = &x;
+			stageIntro = x;
+			hasStageIntro = true;
 			break;
 		}
 
@@ -79,14 +80,14 @@ void UIStageIntro::Update(UpdatingPhase phase, const SUpdateInfo& updateInfo)
 
 void UIStageIntro::SetVisible(bool visible)
 {
-	if (!stageIntro) return;
+	if (!hasStageIntro) return;
 
 	if (auto* project = lc->gocSprite->GetProject())
 		if (auto* scene = project->GetScene("ui_stageintro")) {
 			visibleCounter = 3.5f;
 			lc->SetVisible(true);
 			lc->PlayAnimation("popup");
-			scene->layers[0]->casts[0]->castData->data.image->cropRefs0[0].cropIndex = stageIntro->cropId;
+			scene->layers[0]->casts[0]->castData->data.image->cropRefs0[0].cropIndex = stageIntro.cropId;
 			scene->layers[0]->casts[0]->transform->dirtyFlag.SetCellAll();
 		}
 }
