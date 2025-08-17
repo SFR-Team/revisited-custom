@@ -1,4 +1,5 @@
 #pragma once
+#include "UIResultModel.h"
 
 HOOK(void, __fastcall, ResultAddCallback, 0x140AC6B30, app::ui::UIResult* self, hh::game::GameManager* gameManager) {
 	originalResultAddCallback(self, gameManager);
@@ -37,4 +38,8 @@ HOOK(void, __fastcall, ResultAddCallback, 0x140AC6B30, app::ui::UIResult* self, 
 			}
 		}
 	}
+
+	auto* resultModel = hh::game::GameObject::Create<revisited::objects::UIResultModel>(self->GetAllocator());
+	resultModel->Setup(self);
+	gameManager->AddGameObject(resultModel, "UIResultModel", false, nullptr, nullptr);
 }

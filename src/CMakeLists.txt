@@ -14,9 +14,11 @@ target_sources(mod
         objects/titlecard/rfl/Stage.cpp
         objects/titlecard/rfl/StageIntro.cpp
         objects/titlecard/UIStageIntro.cpp
+        objects/result/UIResultModel.cpp
         objects/ObjHomingGismo.cpp
         player/BlackboardRevisited.cpp
         dv/DvElementIslandIntro.cpp
+        needle/RenderTexturePostPipeline.cpp
     PRIVATE FILE_SET HEADERS FILES
         Pch.h
         utilities/Helpers.h
@@ -28,11 +30,13 @@ target_sources(mod
         objects/itemBox/UIItemBox.h
         objects/titlecard/UIStageIntro.h
         objects/ObjHomingGismo.h
-        objects/ResultHooks.h
+        objects/result/UIResultModel.h
+        objects/result/ResultHooks.h
         objects/UIGameCockpitHooks.h
         objects/npc/ObjKocoNpc.h
         player/bootstrap.h
         player/BlackboardRevisited.h
         dv/bootstrap.h
         dv/DvElementIslandIntro.h
-)
+        needle/RenderTexturePostPipeline.h
+ )

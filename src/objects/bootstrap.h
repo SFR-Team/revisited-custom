@@ -4,7 +4,8 @@
 #include "itemBox/UIItemBox.h"
 #include "ObjHomingGismo.h"
 #include "titlecard/UIStageIntro.h"
-#include "ResultHooks.h"
+#include "result/ResultHooks.h"
+#include "result/UIResultModel.h"
 #include "UIGameCockpitHooks.h"
 //#include "custom/ObjTestBoss.h"
 
@@ -35,6 +36,7 @@ namespace revisited::objects {
 		//registerRFL<ObjTestBossSpawner>();
 		registerObject<ObjItemBox>();
 		registerObject<ObjHomingGismo>();
+		registerObject<UIResultModel>();
 		//registerObject<ObjTestBoss>();
 
 		auto* allocator = hh::fnd::MemoryRouter::GetModuleAllocator();
