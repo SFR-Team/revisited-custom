@@ -39,7 +39,18 @@ HOOK(void, __fastcall, ResultAddCallback, 0x140AC6B30, app::ui::UIResult* self, 
 		}
 	}
 
-	auto* resultModel = hh::game::GameObject::Create<revisited::objects::UIResultModel>(self->GetAllocator());
+	switch (self->resultInfo.rank) {
+	case 0:
+		break;
+	case 1:
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	}
+
+	/*auto* resultModel = hh::game::GameObject::Create<revisited::objects::UIResultModel>(self->GetAllocator());
 	resultModel->Setup(self);
-	gameManager->AddGameObject(resultModel, "UIResultModel", false, nullptr, nullptr);
+	gameManager->AddGameObject(resultModel, "UIResultModel", false, nullptr, nullptr);*/
 }

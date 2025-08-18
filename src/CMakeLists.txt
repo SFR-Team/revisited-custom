@@ -38,5 +38,7 @@ target_sources(mod
         player/BlackboardRevisited.h
         dv/bootstrap.h
         dv/DvElementIslandIntro.h
+        needle/bootstrap.h
+        needle/RenderTexturePostEffectPipelineHooks.h
         needle/RenderTexturePostPipeline.h
- )
+  )

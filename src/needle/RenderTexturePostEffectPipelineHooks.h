@@ -1,12 +1,8 @@
-#include "RenderTexturePostPipeline.h"
-
-using namespace csl::fnd;
+#pragma once
 
 using namespace hh::needle;
 
-using namespace revisited::needle;
-
-/*struct UnkInfo {
+struct UnkInfo {
 	int64_t unk0;
 	SurfaceType type;
 	uint32_t arraySize;
@@ -20,29 +16,7 @@ using namespace revisited::needle;
 
 FUNCTION_PTR(void, __fastcall, sub_141014af0, 0x141014AF0, CopyColor*, RenderingDeviceContext*, Texture*, RenderTarget*, UnkInfo&, UnkInfo&);
 
-
-RenderTexturePostPipeline::RenderTexturePostPipeline(IAllocator* allocator, PBRModelInstanceRenderer* pbrModelInstanceRenderer, RenderTextureHandle* renderTexture) : WorldRenderingPipeline{ allocator }
-{
-	name = GetName();
-	this->renderTexture = renderTexture;
-	SetupInfo setupInfo{};
-	setupInfo.modelInstanceRenderer = pbrModelInstanceRenderer;
-	setupInfo.drawPassCount = 5;
-	setupInfo.renderParameters.drawPassSettings = (SDrawPassSceneSetting*)0x141743720;
-	setupInfo.renderParameters.parameterCount = 1;
-	setupInfo.renderParameters.parameterSize = 4;
-	setupInfo.renderParameters.cullingGroupCount = 1;
-	setupInfo.renderParameters.cullingGroupSettings = (SCullGroupSetting*)0x141743810;
-	setupInfo.renderParameters.unk107 = 0;
-	setupInfo.renderParameters.enableOcclusionCullingView = false;
-	setupInfo.renderParameters.unk109 = 1;
-	setupInfo.renderParameters.unk110 = 0x141743830;
-	setupInfo.unk111 = 0;
-	setupInfo.renderParameters.occlusionCullingIndices = nullptr;
-	this->Setup(setupInfo);
-}
-
-void RenderTexturePostPipeline::ClearBuffers(PipelineInfo* pipelineInfo, unsigned int viewportId, void* userData)
+void ClearBuffers(PipelineInfo* pipelineInfo, unsigned int viewportId, void* userData)
 {
 	auto* renderTargetManager = pipelineInfo->supportFX->GetRenderManager()->renderTargetManager;
 	renderTargetManager->ClearRenderTarget({ (unsigned int)renderTargetManager->GetUnk9() });
@@ -51,12 +25,12 @@ void RenderTexturePostPipeline::ClearBuffers(PipelineInfo* pipelineInfo, unsigne
 	renderTargetManager->ClearDepthStencil({ defaultIdx }, true);
 }
 
-void RenderTexturePostPipeline::UnkJob(PipelineInfo* pipelineInfo, unsigned int viewportId, void* userData)
+void UnkJob(PipelineInfo* pipelineInfo, unsigned int viewportId, void* userData)
 {
-	auto* pipeline = (RenderTexturePostPipeline*)userData;
+	auto* pipeline = (RenderTexturePostEffectPipeline*)userData;
 	auto* supportFx = pipelineInfo->supportFX;
 	auto* ctx = supportFx->GetRenderingContext2();
-	auto* renderTarget = (RenderTarget*)*pipeline->renderTexture->GetRenderTarget(0);
+	auto* renderTarget = (RenderTarget*)*pipeline->renderTextureHandle->GetRenderTarget(0);
 	auto* copyColor = supportFx->copyColor1;
 	auto* renderTargetManager = supportFx->renderManager->renderTargetManager;
 	UnkInfo unkInfo{};
@@ -72,15 +46,14 @@ void RenderTexturePostPipeline::UnkJob(PipelineInfo* pipelineInfo, unsigned int 
 	sub_141014af0(copyColor, ctx, renderTargetManager->GetRenderTargetView({ renderIdx }), renderTarget, unkInfo, unkInfo);
 }
 
-void RenderTexturePostPipeline::InitializeJobs()
-{
+HOOK(void, __fastcall, RenderTexturePostEffectPipelineInit, 0x1410249D0, hh::needle::RenderTexturePostEffectPipeline* self) {
 	auto* clearBuffers = new CallbackJob{};
-	clearBuffers->unk2 = -1;
+	clearBuffers->enabledBits = -1;
 	clearBuffers->callback.function = &ClearBuffers;
-	AddJob(clearBuffers);
+	self->AddJob(clearBuffers);
 
-	auto* shadowMap = new ShadowMapRenderJob{ allocator, 0, 0 };
-	AddJob(shadowMap);
+	auto* shadowMap = new ShadowMapRenderJob{ self->allocator, 0, 0 };
+	self->AddJob(shadowMap);
 
 	shadowMap->gap68[0] = 0;
 	shadowMap->gap68[1] = 3;
@@ -115,17 +88,18 @@ void RenderTexturePostPipeline::InitializeJobs()
 	shadowMap->gap68[24] = 4;
 	shadowMap->gap68[25] = 4;
 
+	//Sets the render targets and then the viewports width and height
 	auto* setViewport = new CallbackJob{};
-	setViewport->unk2 = -1;
+	setViewport->enabledBits = -1;
 	setViewport->viewportId = -1;
-	setViewport->callback.function = ((RenderJobCallback::Function*)0x141024500);
-	setViewport->callback.userData = this;
-	AddJob(setViewport);
+	setViewport->callback.function = (RenderJobCallback::Function*)0x141024500;
+	setViewport->callback.userData = self;
+	self->AddJob(setViewport);
 
-	AddJob(new RenderableRenderJob{ RenderTextureHandle::RenderStage::UNK1, 0, "Before3D Renderable" });
+	self->AddJob(new RenderableRenderJob{ RenderTextureHandle::RenderStage::UNK1, 0, "Before3D Renderable" });
 
-	auto* deferredRenderJob = new DefaultDeferredRenderJob{ allocator, 0 };
-	AddJob(deferredRenderJob);
+	auto* deferredRenderJob = new DefaultDeferredRenderJob{ self->allocator, 0 };
+	self->AddJob(deferredRenderJob);
 
 	deferredRenderJob->qword70 = 1;
 	deferredRenderJob->dword78 = 1;
@@ -135,7 +109,7 @@ void RenderTexturePostPipeline::InitializeJobs()
 	deferredRenderJob->enabledBitsCopy = 0xFFFFFFFF;
 
 	auto* modelRenderJob = new DefaultModelRenderJob{ 0, nullptr };
-	AddJob(modelRenderJob);
+	self->AddJob(modelRenderJob);
 
 	ModelRenderJobBase::RenderLayer transparentLayer{};
 	transparentLayer.name = ((CNameIDObjectStatic*)0x1440C91D0)->uniqueObject;
@@ -145,15 +119,15 @@ void RenderTexturePostPipeline::InitializeJobs()
 	transparentLayer.unk5 = 2;
 	modelRenderJob->SetRenderLayer(0, transparentLayer);
 
-	modelRenderJob->onBeforeDefaultRender.function = ((RenderJobCallback::Function*)0x1410248C0);
-	modelRenderJob->onAfterRender.function = ((RenderJobCallback::Function*)0x141024880);
+	modelRenderJob->onBeforeDefaultRender.function = (RenderJobCallback::Function*)0x1410248C0;
+	modelRenderJob->onAfterRender.function = (RenderJobCallback::Function*)0x141024880;
 
-	AddJob(new RenderableRenderJob{ RenderTextureHandle::RenderStage::UNK4, 0 });
-	AddJob(new PostEffectPipelineJob{});
+	self->AddJob(new RenderableRenderJob{ RenderTextureHandle::RenderStage::UNK4, 0 });
+	self->AddJob(new PostEffectPipelineJob{});
 
 	auto* unkJob = new CallbackJob{};
-	unkJob->unk2 = -1;
+	unkJob->enabledBits = -1;
 	unkJob->callback.function = &UnkJob;
-	unkJob->callback.userData = this;
-	AddJob(unkJob);
-}*/
+	unkJob->callback.userData = self;
+	self->AddJob(unkJob);
+}

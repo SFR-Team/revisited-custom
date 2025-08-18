@@ -2,12 +2,14 @@
 #include "objects/bootstrap.h"
 #include "player/bootstrap.h"
 #include "dv/bootstrap.h"
+#include "needle/bootstrap.h"
 
 HOOK(uint64_t, __fastcall, GameModeBootInit, 0x1401AADF0, app::game::GameMode* self) {
 	auto res = originalGameModeBootInit(self);
 	revisited::objects::bootstrap();
 	revisited::player::bootstrap();
 	revisited::dv::bootstrap();
+	//revisited::needle::bootstrap();
 	return res;
 }
 

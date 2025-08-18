@@ -56,7 +56,7 @@ void UIResultModel::AddCallback(GameManager* gameManager)
 
 	auto* renderManager = (hh::gfx::RenderManager*)hh::gfnd::RenderManagerBase::GetInstance();
 	auto* supportFx = renderManager->GetNeedleResourceDevice()->GetSupportFX();
-	auto* renderPipeline = new RenderTexturePostEffectPipeline{ pAllocator, supportFx->modelInstanceRenderer, gocRenderTexture->renderTextureHandle };
+	auto* renderPipeline = new RenderTexturePipeline{ pAllocator, supportFx->modelInstanceRenderer, gocRenderTexture->renderTextureHandle };
 	gocRenderTexture->renderTextureHandle->ChangePipeline(renderPipeline);
 	gocRenderTexture->SetUnk0(true);
 
