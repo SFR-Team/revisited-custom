@@ -24,9 +24,12 @@ void DvIslandIntro::AddCallback(hh::game::GameManager* gameManager)
 {
 	auto* resMgr = ResourceManager::GetInstance();
 
+	auto* res = resMgr->GetResource<ResSurfRideProject>("ui_islandintro");
+	if (!res) return;
+
 	GOCSprite::SetupInfo gocSpriteDesc{};
 	gocSpriteDesc.name = "DvIslandIntro";
-	gocSpriteDesc.resource = resMgr->GetResource<ResSurfRideProject>("ui_islandintro");
+	gocSpriteDesc.resource = res;
 	auto* gocSprite = CreateComponent<GOCSprite>();
 	gocSprite->Setup(gocSpriteDesc);
 	AddComponent(gocSprite);
@@ -44,6 +47,8 @@ void DvIslandIntro::AddCallback(hh::game::GameManager* gameManager)
 
 void DvIslandIntro::Start(unsigned int island, csl::math::Vector2& position, float scale) const
 {
+	if (!lc) return;
+
 	if (auto* project = lc->gocSprite->GetProject())
 		if (auto* scene = project->GetScene("ui_islandintro")) {
 			scene->layers[0]->casts[0]->transform->position = SurfRide::Vector3{ position.x(), position.y(), 0 };
@@ -61,6 +66,8 @@ void DvIslandIntro::Start(unsigned int island, csl::math::Vector2& position, flo
 
 void DvIslandIntro::End() const
 {
+	if (!lc) return;
+
 	lc->ClearReservedAnimation();
 	lc->ReserveAnimation("out");
 	lc->PlayReservedAnimation();

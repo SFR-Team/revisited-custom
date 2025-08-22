@@ -78,6 +78,7 @@ void ObjItemBox::AddCallback(GameManager* gameManager)
 
 	type = worldData->type;
 	canAirDashRocket = worldData->canAirDashRocket;
+	doBounce = worldData->doBounce;
 
 	const char* bmodelName = "";
 	switch (worldData->type) {
@@ -190,17 +191,17 @@ void ObjItemBox::DestroyCallback()
 		GivePlayerRings(50);
 		break;
 	case ObjItemBoxSpawner::ItemType::ULTRA: {
-		auto* gocBlackboard = GetPlayer()->GetComponent<GOCPlayerBlackboard>();
-		auto& blackboard = gocBlackboard->blackboard;
-		auto* blackboardRev = blackboard->GetContent<BlackboardRevisited>();
-		blackboardRev->GiveInvincibility();
+		if (auto* gocBlackboard = GetPlayer()->GetComponent<GOCPlayerBlackboard>())
+		if (auto& blackboard = gocBlackboard->blackboard)
+		if (auto* blackboardRev = blackboard->GetContent<BlackboardRevisited>())
+			blackboardRev->GiveInvincibility();
 		break;
 	}
 	case ObjItemBoxSpawner::ItemType::MAGNETIC: {
-		auto* gocBlackboard = GetPlayer()->GetComponent<GOCPlayerBlackboard>();
-		auto& blackboard = gocBlackboard->blackboard;
-		auto* blackboardRev = blackboard->GetContent<BlackboardRevisited>();
-		blackboardRev->GiveMagnetic();
+		if (auto* gocBlackboard = GetPlayer()->GetComponent<GOCPlayerBlackboard>())
+		if (auto& blackboard = gocBlackboard->blackboard)
+		if (auto* blackboardRev = blackboard->GetContent<BlackboardRevisited>())
+			blackboardRev->GiveMagnetic();
 		break;
 	}
 	case ObjItemBoxSpawner::ItemType::ROCKET: {
@@ -211,10 +212,10 @@ void ObjItemBox::DestroyCallback()
 		break;
 	}
 	case ObjItemBoxSpawner::ItemType::INFINITE_BOOST: {
-		auto* gocBlackboard = GetPlayer()->GetComponent<GOCPlayerBlackboard>();
-		auto& blackboard = gocBlackboard->blackboard;
-		auto* blackboardRev = blackboard->GetContent<BlackboardRevisited>();
-		blackboardRev->GiveInfiniteBoost();
+		if (auto* gocBlackboard = GetPlayer()->GetComponent<GOCPlayerBlackboard>())
+		if (auto& blackboard = gocBlackboard->blackboard)
+		if (auto* blackboardRev = blackboard->GetContent<BlackboardRevisited>())
+			blackboardRev->GiveInfiniteBoost();
 		break;
 	}
 	}
@@ -232,7 +233,8 @@ void ObjItemBox::DestroyCallback()
 
 	GetComponent<GOCVibration>()->PlayVibration("low", 0);
 
-	SendBounceMessage();
+	if (doBounce)
+		SendBounceMessage();
 }
 
 void ObjItemBox::GiveObject(unsigned int amount, MsgTakeObject::Type type)

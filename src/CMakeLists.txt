@@ -36,6 +36,7 @@ target_sources(mod
         objects/npc/ObjKocoNpc.h
         player/bootstrap.h
         player/BlackboardRevisited.h
+        player/StateHooks.h
         dv/bootstrap.h
         dv/DvElementIslandIntro.h
         needle/bootstrap.h

@@ -1,5 +1,6 @@
 #pragma once
 #include "BlackboardRevisited.h"
+#include "StateHooks.h"
 
 HOOK(uint64_t, __fastcall, PlayerAddCallback, 0x140880810, app::player::Player* self, hh::game::GameManager* gameManager) {
 	auto res = originalPlayerAddCallback(self, gameManager);
@@ -28,10 +29,6 @@ HOOK(uint64_t, __fastcall, MessageHandler, 0x14091CF80, app::player::GOCPlayerHs
 	return originalMessageHandler(self, message);
 }
 
-HOOK(bool, __fastcall, GOCAnimatorChangeState, 0x140E92B00, hh::anim::GOCAnimator* self, const char* stateName) {
-	return originalGOCAnimatorChangeState(self, stateName);
-}
-
 namespace revisited::player {
 	void bootstrap() {
 		auto* allocator = hh::fnd::MemoryRouter::GetModuleAllocator();
@@ -43,6 +40,6 @@ namespace revisited::player {
 		INSTALL_HOOK(PlayerAddCallback);
 		INSTALL_HOOK(MessageHandler);
 
-		INSTALL_HOOK(GOCAnimatorChangeState);
+		bootstrapStates();
 	}
 }

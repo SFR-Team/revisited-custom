@@ -43,6 +43,8 @@ void UIStageIntro::AddCallback(GameManager* gameManager)
 	if (!stageIntroRes) return;
 
 	app::level::LevelInfo* levelInfo = gameManager->GetService<app::level::LevelInfo>();
+	if (!levelInfo) return;
+
 	const char* stageId = levelInfo->stageData->cyberName.c_str();
 	for (auto& x : stageIntroRes->GetData()->stages)
 		if (!strcmp(x.stageId, stageId)) {

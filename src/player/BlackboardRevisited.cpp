@@ -1,15 +1,12 @@
 #include "BlackboardRevisited.h"
 
+using namespace app::player;
 using namespace app::ui;
 using namespace app::snd;
 
 using namespace app_cmn::fsm;
 
 using namespace revisited::player;
-
-
-FUNCTION_PTR(void, __fastcall, PlayerPlayEffect, 0x1409A78E0, StatePluginBase*, int, const char*);
-FUNCTION_PTR(void, __fastcall, PlayerStopEffect, 0x14B9DBBF0, StatePluginBase*, int);
 
 void BlackboardRevisited::PreGameUpdateCallback(GameManager* gameManager, const SUpdateInfo& updateInfo)
 {
@@ -82,21 +79,25 @@ void BlackboardRevisited::RemoveMagnetic()
 template<size_t T>
 void BlackboardRevisited::PlayEffects(const char* name, const char* const (&names)[T])
 {
-	auto* plugin = GetPlayer()->GetComponent<GOCPlayerHsm>()->statePluginManager->GetPlugin(csl::ut::HashString("StatePluginEffect"));
+	auto* plugin = GetPlayer()->GetComponent<GOCPlayerHsm>()->statePluginManager->GetPlugin<StatePluginEffect>();
+	if (!plugin) return;
+
 	for (int i = 0; i < T; i++) {
 		char buffer[16];
 		snprintf(buffer, sizeof(buffer), "%s%d", name, i);
-		PlayerPlayEffect(plugin, csl::ut::HashString(buffer), names[i]);
+		plugin->PlayEffect(csl::ut::HashString(buffer), names[i]);
 	}
 }
 
 template<size_t T>
 void BlackboardRevisited::StopEffects(const char* name, const char* const (&names)[T])
 {
-	auto* plugin = GetPlayer()->GetComponent<GOCPlayerHsm>()->statePluginManager->GetPlugin(csl::ut::HashString("StatePluginEffect"));
+	auto* plugin = GetPlayer()->GetComponent<GOCPlayerHsm>()->statePluginManager->GetPlugin<StatePluginEffect>();
+	if (!plugin) return;
+
 	for (int i = 0; i < T; i++) {
 		char buffer[16];
 		snprintf(buffer, sizeof(buffer), "%s%d", name, i);
-		PlayerStopEffect(plugin, csl::ut::HashString(buffer));
+		plugin->StopEffect(csl::ut::HashString(buffer));
 	}
 }

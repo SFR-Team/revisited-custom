@@ -9,6 +9,7 @@ namespace revisited::objects {
 
 		ObjItemBoxSpawner::ItemType type;
 		bool canAirDashRocket;
+		bool doBounce;
 	public:
 		virtual void* GetRuntimeTypeInfo() const override;
 		virtual bool ProcessMessage(hh::fnd::Message& message) override;

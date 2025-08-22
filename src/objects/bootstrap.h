@@ -36,7 +36,6 @@ namespace revisited::objects {
 		//registerRFL<ObjTestBossSpawner>();
 		registerObject<ObjItemBox>();
 		registerObject<ObjHomingGismo>();
-		registerObject<UIResultModel>();
 		//registerObject<ObjTestBoss>();
 
 		auto* allocator = hh::fnd::MemoryRouter::GetModuleAllocator();
