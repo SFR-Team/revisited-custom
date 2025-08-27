@@ -16,7 +16,6 @@ namespace revisited::objects {
 		csl::ut::VariableString particleName;
 		csl::ut::VariableString soundName;
 	public:
-		virtual void* GetRuntimeTypeInfo() const override;
 		virtual bool ProcessMessage(hh::fnd::Message& message) override;
 		virtual void AddCallback(hh::game::GameManager* gameManager) override;
 

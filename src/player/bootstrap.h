@@ -4,22 +4,32 @@
 
 HOOK(uint64_t, __fastcall, PlayerAddCallback, 0x140880810, app::player::Player* self, hh::game::GameManager* gameManager) {
 	auto res = originalPlayerAddCallback(self, gameManager);
-	revisited::player::BlackboardRevisited* blackboardRevisited = revisited::player::BlackboardRevisited::Create(self->GetAllocator());
-	self->GetComponent<app::player::GOCPlayerBlackboard>()->blackboard->contents.push_back(blackboardRevisited);
+	auto& blackboard = self->GetComponent<app::player::GOCPlayerBlackboard>()->blackboard;
+	revisited::player::BlackboardRevisited* blackboardRevisited = revisited::player::BlackboardRevisited::Create(blackboard->GetAllocator());
+	blackboard->AddContent(blackboardRevisited);
 	return res;
 }
 
-HOOK(uint64_t, __fastcall, MessageHandler, 0x14091CF80, app::player::GOCPlayerHsm* self, hh::fnd::Message* message) {
-	if (auto* x = GetPlayer()->GetComponent<app::player::GOCPlayerBlackboard>()) {
+inline bool IsNonDamageMessage(unsigned int messageId) {
+	return messageId != 8428 && messageId != 8384 && messageId != 8385;
+}
+
+inline bool IsDamageMessage(unsigned int messageId) {
+	return messageId == 8428 || messageId == 8384 || messageId == 8385;
+}
+
+HOOK(uint64_t, __fastcall, MessageHandler, 0x14091CF80, app::player::PlayerHsmContext* self, hh::fnd::Message* message) {
+	unsigned int id = (int)message->ID;
+	if (auto* x = self->gocPlayerBlackboard) {
 		if (auto* blackboard = x->blackboard->GetContent<revisited::player::BlackboardRevisited>()) {
 			if (blackboard->flags.test(revisited::player::BlackboardRevisited::Flags::ULTRA)) {
-				if ((int)message->ID != 8428 && (int)message->ID != 8384 && (int)message->ID != 8385)
+				if (IsNonDamageMessage(id))
 					return originalMessageHandler(self, message);
 				else
 					return true;
 			}
 			if (blackboard->flags.test(revisited::player::BlackboardRevisited::Flags::MAGNETIC)) {
-				if ((int)message->ID == 8428 || (int)message->ID == 8384 || (int)message->ID == 8385) {
+				if (IsDamageMessage(id)) {
 					blackboard->RemoveMagnetic();
 					return true;
 				}

@@ -1,11 +1,11 @@
 #pragma once
-#include "ObjItemBoxSpawner.h"
+#include "ObjItemBox.h"
 
 namespace revisited::objects {
 	class UIItemBox : public hh::game::GameObject {
 		GAMEOBJECT_CLASS_DECLARATION(UIItemBox);
 
-		float visibleCounter{ 0 };
+		app::Timer visibleCounter{};
 		hh::fnd::Reference<hh::ui::LayerController> lc;
 	public:
 		virtual void AddCallback(hh::game::GameManager* gameManager) override;

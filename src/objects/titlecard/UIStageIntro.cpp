@@ -68,13 +68,12 @@ void UIStageIntro::Update(UpdatingPhase phase, const SUpdateInfo& updateInfo)
 			SetVisible(true);
 	}
 
-	if (visibleCounter > 0) {
-		visibleCounter -= updateInfo.deltaTime;
+	if (visibleCounter.IsActive()) {
+		visibleCounter.Add(updateInfo.deltaTime);
 		if (!lc->IsVisible())
 			lc->SetVisible(true);
 	}
-	if (visibleCounter <= 0) {
-		visibleCounter = 0;
+	if (visibleCounter.IsFinished()) {
 		if (lc->IsVisible())
 			lc->SetVisible(false);
 	}
@@ -86,15 +85,10 @@ void UIStageIntro::SetVisible(bool visible)
 
 	if (auto* project = lc->gocSprite->GetProject())
 		if (auto* scene = project->GetScene("ui_stageintro")) {
-			visibleCounter = 3.5f;
+			visibleCounter.Set(3.5f);
 			lc->SetVisible(true);
 			lc->PlayAnimation("popup");
 			scene->layers[0]->casts[0]->castData->data.image->cropRefs0[0].cropIndex = stageIntro.cropId;
 			scene->layers[0]->casts[0]->transform->dirtyFlag.SetCellAll();
 		}
-}
-
-const GameObjectClass* UIStageIntro::GetClass()
-{
-	return &gameObjectClass;
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<AWB version="2" alignment="32" id_align="2" subkey="0">
+	<files>
+		<file seq="0" path="D:/revisited-custom/resources/raw/sound/revisited_sound/bgm_w1r06_0x00000000/00000.hca" />
+	</files>
+	<order>
+		<entry id="0" />
+	</order>
+</AWB>

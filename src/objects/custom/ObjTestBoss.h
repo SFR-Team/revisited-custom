@@ -136,7 +136,6 @@ namespace revisited::objects {
 		hh::game::GOCTransform* transform;
 		hh::physics::GOCCollider* collider;
 
-		virtual void* GetRuntimeTypeInfo() const override;
 		virtual bool ProcessMessage(hh::fnd::Message& message) override;
 		virtual void AddCallback(hh::game::GameManager* gameManager) override;
 		virtual void UpdateAsync(hh::fnd::UpdatingPhase phase, const hh::fnd::SUpdateInfo& updateInfo, void* unkParam) override;

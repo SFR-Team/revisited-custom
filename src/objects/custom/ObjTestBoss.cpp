@@ -45,11 +45,6 @@ ObjTestBoss::ObjTestBoss(csl::fnd::IAllocator* allocator) : GameObject{ allocato
 	SetUpdateFlag(hh::fnd::UpdatingPhase::PRE_ANIM, 1);
 }
 
-void* ObjTestBoss::GetRuntimeTypeInfo() const
-{
-	return nullptr;
-}
-
 bool ObjTestBoss::ProcessMessage(hh::fnd::Message& message)
 {
 	
@@ -207,9 +202,4 @@ void ObjTestBoss::DamageDealt(app::MsgDamage& message, int damage, bool stunned,
 	message.dword110 |= 1;
 	if (context)
 		context->HandleDamage(message);
-}
-
-const hh::game::GameObjectClass* ObjTestBoss::GetClass()
-{
-	return &gameObjectClass;
 }

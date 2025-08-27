@@ -21,7 +21,7 @@ using namespace revisited::objects;
 using namespace revisited::player;
 
 
-GAMEOBJECT_CLASS_RFL(ObjItemBox, Common)
+GAMEOBJECT_CLASS_RFL_OBJINFO(ObjItemBox, Common);
 
 GameObject* ObjItemBox::Create(IAllocator* allocator) {
 	return new (std::align_val_t(16), allocator) ObjItemBox{ allocator };
@@ -29,12 +29,8 @@ GameObject* ObjItemBox::Create(IAllocator* allocator) {
 
 ObjItemBox::ObjItemBox(IAllocator* allocator) : GameObject{ allocator }, type{ ObjItemBoxSpawner::ItemType::ROCKET } {
 	SetLayer(6);
+	SetUpdateFlag(UpdatingPhase::PRE_ANIM, true);
 	SetPropertyFlag(this, 0x5001, 0);
-}
-
-void* ObjItemBox::GetRuntimeTypeInfo() const
-{
-	return nullptr;
 }
 
 bool ObjItemBox::ProcessMessage(Message& message)
@@ -69,7 +65,6 @@ void ObjItemBox::AddCallback(GameManager* gameManager)
 	if (!gameManager->GetGameObject("UIItemBox"))
 		gameManager->AddGameObject(GameObject::Create<UIItemBox>(pAllocator), "UIItemBox", false, nullptr, nullptr);
 
-	auto* resMgr = ResourceManager::GetInstance();
 	auto* worldData = GetWorldDataByClass<ObjItemBoxSpawner>();
 	auto state = status->GetObjectState(0);
 
@@ -79,52 +74,19 @@ void ObjItemBox::AddCallback(GameManager* gameManager)
 	type = worldData->type;
 	canAirDashRocket = worldData->canAirDashRocket;
 	doBounce = worldData->doBounce;
+	bool isAir = worldData->isAir;
 
-	const char* bmodelName = "";
-	switch (worldData->type) {
-	case ObjItemBoxSpawner::ItemType::TEN_RING:
-		bmodelName = "cmn_obj_ring10";
-		break;
-	case ObjItemBoxSpawner::ItemType::TWENTY_RING:
-		bmodelName = "cmn_obj_ring20";
-		break;
-	case ObjItemBoxSpawner::ItemType::FIFTY_RING:
-		bmodelName = "cmn_obj_ring50";
-		break;
-	case ObjItemBoxSpawner::ItemType::MAGNETIC:
-		bmodelName = "cmn_obj_magnet";
-		break;
-	case ObjItemBoxSpawner::ItemType::ULTRA:
-		bmodelName = "cmn_obj_ultra";
-		break;
-	case ObjItemBoxSpawner::ItemType::ROCKET:
-		bmodelName = "cmn_obj_rocket";
-		break;
-	case ObjItemBoxSpawner::ItemType::INFINITE_BOOST:
-		bmodelName = "cmn_obj_infiniteboost";
-		break;
-	}
+	auto* objInfo = GetObjInfo<ObjItemBoxInfo>(gameManager);
 
-	const char* type = "ground";
-
-	if (worldData->isAir)
-		type = "float";
-
-	char modelName[64];
-	snprintf(modelName, sizeof(modelName), "%s%s", bmodelName, type);
-
-	char skelName[64];
-	snprintf(skelName, sizeof(skelName), "cmn_obj_itembox%s_skeleton", type);
-
-	auto* model = resMgr->GetResource<ResModel>(modelName);
-	auto* skeleton = resMgr->GetResource<ResSkeletonPxd>(skelName);
+	auto model = objInfo->GetModel(isAir, type);
+	auto skeleton = objInfo->GetSkeleton(isAir);
 	GOCVisualModelDescription gocVisualModelDesc{};
 	gocVisualModelDesc.model = model;
 	gocVisualModelDesc.skeleton = skeleton;
 	gocVisualModelDesc.flags.set(GOCVisualModelDescription::Flag::NO_MATERIAL_OPTIMIZE);
 	gocVisualModelDesc.useGISG = true;
 	gocVisualModelDesc.useGIPRT = true;
-	gocVisualModelDesc.nameHash = csl::ut::HashString("mainModel");
+	gocVisualModelDesc.name = csl::ut::HashString("mainModel");
 	auto* gocVisual = CreateComponent<GOCVisualModel>();
 	gocVisual->Setup(gocVisualModelDesc);
 	AddComponent(gocVisual);
@@ -154,27 +116,27 @@ void ObjItemBox::AddCallback(GameManager* gameManager)
 	GOCAnimationSimple::SetupInfo gocAnimationSimpleDesc{};
 	gocAnimationSimpleDesc.skeleton = skeleton;
 	gocAnimationSimpleDesc.animationCount = 2;
-	gocAnimationSimpleDesc.setUnk6Flag = 1;
-	gocAnimationSimpleDesc.gocVisualModelNameHash = csl::ut::HashString("mainModel");
+	gocAnimationSimpleDesc.setPose = true;
+	gocAnimationSimpleDesc.modelComponentName = csl::ut::HashString("mainModel");
 	auto* gocAnimationSimple = CreateComponent<GOCAnimationSimple>();
 	gocAnimationSimple->Setup(gocAnimationSimpleDesc);
 	AddComponent(gocAnimationSimple);
 
-	char idleName[64];
-	snprintf(idleName, sizeof(idleName), "cmn_obj_itembox%s_roll", type);
-	auto* idleAnimation = resMgr->GetResource<ResAnimationPxd>(idleName);
-
-	char getName[64];
-	snprintf(getName, sizeof(getName), "cmn_obj_itembox%s_get", type);
-	auto* getAnimation = resMgr->GetResource<ResAnimationPxd>(getName);
-
-	gocAnimationSimple->Add("idle", idleAnimation, PlayPolicy::NORMAL);
-	gocAnimationSimple->Add("get", getAnimation, PlayPolicy::NORMAL);
+	gocAnimationSimple->Add("idle", objInfo->GetIdle(isAir), PlayPolicy::REPEAT);
+	gocAnimationSimple->Add("get", objInfo->GetGet(isAir), PlayPolicy::NORMAL);
 
 	gocAnimationSimple->Play("idle");
 
 	auto* gocVibration = CreateComponent<GOCVibration>();
 	AddComponent(gocVibration);
+}
+
+void ObjItemBox::Update(UpdatingPhase phase, const SUpdateInfo& updateInfo)
+{
+	animationTimer.Add(updateInfo.deltaTime);
+	if (auto* gocAnim = GetComponent<GOCAnimationSimple>())
+		if (!animationTimer.IsActive() && gocAnim->IsPlaying("get"))
+			PostDestroyCallback();
 }
 
 void ObjItemBox::DestroyCallback()
@@ -220,21 +182,27 @@ void ObjItemBox::DestroyCallback()
 	}
 	}
 
-	GetComponent<GOCAnimationSimple>()->Play("get");
+	auto* gocAnim = GetComponent<GOCAnimationSimple>();
+	gocAnim->playingAnimations.clear();
+	gocAnim->Play("get");
+	animationTimer.Set(gocAnim->GetDuration("get") - 0.01f);
 
-	SetEnabled(false);
-
-	gocSound->Play3D("obj_itembox", GetComponent<GOCTransform>()->GetFrame().fullTransform.position, 0);
+	GetComponent<GOCSound>()->Play3D("obj_itembox", GetComponent<GOCTransform>()->GetFrame().fullTransform.position, 0);
 
 	GetComponent<GOCEffect>()->CreateEffect("ef_ob_itembox_get01", nullptr);
 
-	if (auto* ui = (UIItemBox*)gameManager->GetGameObject("UIItemBox")) 
+	if (auto* ui = (UIItemBox*)gameManager->GetGameObject("UIItemBox"))
 		ui->SetVisible(type);
 
 	GetComponent<GOCVibration>()->PlayVibration("low", 0);
 
 	if (doBounce)
 		SendBounceMessage();
+}
+
+void ObjItemBox::PostDestroyCallback()
+{
+	SetEnabled(false);
 }
 
 void ObjItemBox::GiveObject(unsigned int amount, MsgTakeObject::Type type)
@@ -299,9 +267,4 @@ void ObjItemBox::SendBounceMessage()
 	message.keepVelocityTime = 0.1f;
 	message.unk3 = 2082;
 	ut::SendMessageImmToPlayerObject(*this, 0, message);
-}
-
-const GameObjectClass* ObjItemBox::GetClass()
-{
-	return &gameObjectClass;
 }

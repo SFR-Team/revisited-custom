@@ -21,7 +21,7 @@ namespace revisited::objects {
 
 		Stage stageIntro;
 		hh::fnd::Reference<hh::ui::LayerController> lc{};
-		float visibleCounter{ 0 };
+		app::Timer visibleCounter{};
 		float fadeCounter{ -1 };
 		bool hasStageIntro{ false };
 	public:

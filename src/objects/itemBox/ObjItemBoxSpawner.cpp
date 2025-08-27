@@ -1,7 +1,8 @@
-#include "ObjItemBoxSpawner.h"
+#include "ObjItemBox.h"
 #include "utilities/GameHelpers.h"
 
 using namespace hh::fnd;
+
 using namespace revisited::objects;
 
 const RflClassEnumMember itemTypeMembers[]{

@@ -33,10 +33,10 @@ namespace revisited::player {
 		};
 
 		csl::ut::Bitset<Flags> flags{};
-		float ultraTime{ 0 };
-		float infiniteBoost{ 0 };
-		Reference<StatePluginBoost> boostPlugin;
-		Reference<app::ui::UIStaminaGaugeContext> uiStaminaGaugeCtx;
+		app::Timer ultraTime{};
+		app::Timer infiniteBoost{};
+		Reference<StatePluginBoost> boostPlugin{};
+		Reference<app::ui::UIStaminaGaugeContext> uiStaminaGaugeCtx{};
 
 		virtual unsigned int GetNameHash() const override {
 			return csl::ut::HashString(name);

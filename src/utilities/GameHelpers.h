@@ -86,7 +86,28 @@ static Eigen::Affine3f TransformToAffine3f(const csl::math::Transform& transform
         sizeof(gameObjectClassAttributes) / sizeof(hh::fnd::RflClassMember::Value), \
         gameObjectClassAttributes, \
         &NAME##Spawner::rflClass, \
-    };
+    }; \
+    const GameObjectClass* NAME##::GetClass(){ \
+        return &gameObjectClass; \
+    }
+
+#define GAMEOBJECT_CLASS_RFL_OBJINFO(NAME, CATEGORY) \
+    const hh::fnd::RflClassMember::Value gameObjectClassAttributes[]{ \
+        { "objinfo",  hh::fnd::RflClassMember::Type::CSTRING, NAME##Info::GetClass()->name }, \
+        { "category", hh::fnd::RflClassMember::Type::CSTRING, #CATEGORY } \
+    }; \
+    const GameObjectClass NAME##::gameObjectClass{ \
+        #NAME, \
+        #NAME, \
+        sizeof(NAME), \
+        &NAME##::Create, \
+        sizeof(gameObjectClassAttributes) / sizeof(hh::fnd::RflClassMember::Value), \
+        gameObjectClassAttributes, \
+        &NAME##Spawner::rflClass, \
+    }; \
+    const GameObjectClass* NAME##::GetClass(){ \
+        return &gameObjectClass; \
+    }
 
 #define GAMEOBJECT_CLASS(NAME) \
     const GameObjectClass NAME##::gameObjectClass{ \
@@ -97,4 +118,19 @@ static Eigen::Affine3f TransformToAffine3f(const csl::math::Transform& transform
         0, \
         nullptr, \
         nullptr, \
-    };
+    }; \
+    const GameObjectClass* NAME##::GetClass(){ \
+        return &gameObjectClass; \
+    }
+
+#define OBJINFO_CLASS(NAME) \
+    const ObjInfoClass NAME##::objInfoClass{ \
+        #NAME, \
+        &NAME##::Create \
+    }; \
+    const char* NAME##::GetInfoName(){ \
+        return objInfoClass.name; \
+    } \
+    const ObjInfoClass* NAME##::GetClass(){ \
+        return &objInfoClass; \
+    }

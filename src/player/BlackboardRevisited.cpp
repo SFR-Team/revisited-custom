@@ -10,18 +10,18 @@ using namespace revisited::player;
 
 void BlackboardRevisited::PreGameUpdateCallback(GameManager* gameManager, const SUpdateInfo& updateInfo)
 {
-	if (flags.test(Flags::ULTRA) && ultraTime > 0)
-		ultraTime -= updateInfo.deltaTime;
-	if (flags.test(Flags::ULTRA) && ultraTime <= 0) {
+	if (flags.test(Flags::ULTRA) && ultraTime.IsActive())
+		ultraTime.Add(updateInfo.deltaTime);
+	if (flags.test(Flags::ULTRA) && ultraTime.IsFinished()) {
 		StopEffects("ultra", invincibilityEffects);
 		flags.set(Flags::ULTRA, false);
 	}
 
-	if (flags.test(Flags::INFINITE_BOOST) && infiniteBoost > 0) {
-		infiniteBoost -= updateInfo.deltaTime;
+	if (flags.test(Flags::INFINITE_BOOST) && infiniteBoost.IsActive()) {
+		infiniteBoost.Add(updateInfo.deltaTime);
 		boostPlugin->boostAmount = boostPlugin->boostCapacity;
 	}
-	if (flags.test(Flags::INFINITE_BOOST) && infiniteBoost <= 0) {
+	if (flags.test(Flags::INFINITE_BOOST) && infiniteBoost.IsFinished()) {
 		uiStaminaGaugeCtx->unk1 &= ~0x04;
 		flags.set(Flags::INFINITE_BOOST, false);
 	}
@@ -41,9 +41,9 @@ void BlackboardRevisited::GiveInvincibility()
 {
 	PlayEffects("ultra", invincibilityEffects);
 	flags.set(Flags::ULTRA, true);
-	ultraTime = 20;
+	ultraTime.Set(20);
 	if (auto* soundDirector = GameManager::GetInstance()->GetService<SoundDirector>())
-		soundDirector->PlayBgm({ "UltraSound", 2, 0.0f, 0.0f, 0.0f, 1.0f, 0, 0x10001, 0 });
+		soundDirector->PlayBgm({ "invincibility", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 0x10001, 0 });
 }
 
 void BlackboardRevisited::GiveMagnetic()
@@ -64,7 +64,7 @@ void BlackboardRevisited::GiveInfiniteBoost()
 
 	flags.set(Flags::INFINITE_BOOST, true);
 	boostPlugin->infiniteBoostTimer = 35;
-	infiniteBoost = 35;
+	infiniteBoost.Set(35);
 	uiStaminaGaugeCtx->unk1 |= 0x04;
 }
 

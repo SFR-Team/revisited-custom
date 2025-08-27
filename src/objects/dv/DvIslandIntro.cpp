@@ -72,8 +72,3 @@ void DvIslandIntro::End() const
 	lc->ReserveAnimation("out");
 	lc->PlayReservedAnimation();
 }
-
-const GameObjectClass* DvIslandIntro::GetClass()
-{
-	return &gameObjectClass;
-}

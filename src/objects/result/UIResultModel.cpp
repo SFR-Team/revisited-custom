@@ -84,7 +84,7 @@ void UIResultModel::AddCallback(GameManager* gameManager)
 	gocVisualModelDesc.flags.set(GOCVisualModelDescription::Flag::NO_MATERIAL_OPTIMIZE);
 	gocVisualModelDesc.model = model;
 	gocVisualModelDesc.unk320 = -1;
-	gocVisualModelDesc.nameHash = csl::ut::HashString("mainModel");
+	gocVisualModelDesc.name = csl::ut::HashString("mainModel");
 	auto* gocVisualModel = CreateComponent<GOCVisualModel>();
 	gocVisualModel->Setup(gocVisualModelDesc);
 	AddComponent(gocVisualModel);
@@ -95,8 +95,8 @@ void UIResultModel::AddCallback(GameManager* gameManager)
 	GOCAnimationSimple::SetupInfo gocAnimationSimpleDesc{};
 	gocAnimationSimpleDesc.skeleton = skeleton;
 	gocAnimationSimpleDesc.animationCount = 1;
-	gocAnimationSimpleDesc.setUnk6Flag = 1;
-	gocAnimationSimpleDesc.gocVisualModelNameHash = csl::ut::HashString("mainModel");
+	gocAnimationSimpleDesc.setPose = true;
+	gocAnimationSimpleDesc.modelComponentName = csl::ut::HashString("mainModel");
 	auto* gocAnimationSimple = CreateComponent<GOCAnimationSimple>();
 	gocAnimationSimple->Setup(gocAnimationSimpleDesc);
 	AddComponent(gocAnimationSimple);
@@ -113,9 +113,4 @@ void UIResultModel::Setup(app::ui::UIResult* uiResult)
 	if (!uiResult) return;
 
 	gocSprite = uiResult->GetComponent<GOCSprite>();
-}
-
-const GameObjectClass* UIResultModel::GetClass()
-{
-	return &gameObjectClass;
 }

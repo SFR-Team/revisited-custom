@@ -45,13 +45,12 @@ void UIItemBox::AddCallback(GameManager* gameManager)
 
 void UIItemBox::Update(UpdatingPhase phase, const SUpdateInfo& updateInfo)
 {
-	if (visibleCounter > 0) {
-		visibleCounter -= updateInfo.deltaTime;
+	if (visibleCounter.IsActive()) {
+		visibleCounter.Add(updateInfo.deltaTime);
 		if(!lc->IsVisible())
 			lc->SetVisible(true);
 	}
-	if (visibleCounter <= 0) {
-		visibleCounter = 0;
+	if (visibleCounter.IsFinished()) {
 		if (lc->IsVisible())
 			lc->SetVisible(false);
 	}
@@ -59,16 +58,11 @@ void UIItemBox::Update(UpdatingPhase phase, const SUpdateInfo& updateInfo)
 
 void UIItemBox::SetVisible(ObjItemBoxSpawner::ItemType type)
 {
-	visibleCounter = 3.5f;
+	visibleCounter.Set(3.5f);
 	if (auto* project = lc->gocSprite->GetProject())
 		if (auto* scene = project->GetScene("ui_itembox")) {
 			lc->PlayAnimation("popup");
 			scene->layers[0]->casts[0]->castData->data.image->cropRefs0[0].cropIndex = (char)type;
 			scene->layers[0]->casts[0]->transform->dirtyFlag.SetCellAll();
 		}
-}
-
-const GameObjectClass* UIItemBox::GetClass()
-{
-	return &gameObjectClass;
 }

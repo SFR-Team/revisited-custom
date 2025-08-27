@@ -53,11 +53,6 @@ ObjHomingGismo::ObjHomingGismo(IAllocator* allocator) : GameObject{ allocator },
 	app::game::SetPropertyFlag(this, 0x5001, 0);
 }
 
-void* ObjHomingGismo::GetRuntimeTypeInfo() const
-{
-	return nullptr;
-}
-
 bool ObjHomingGismo::ProcessMessage(Message& message)
 {
 	switch (message.ID) {
@@ -131,9 +126,4 @@ void ObjHomingGismo::DestroyCallback()
 	GetComponent<GOCVisualModel>()->SetVisible(false);
 	GetComponent<GOCSound>()->Play3D(soundName, GetComponent<GOCTransform>()->GetFrame().fullTransform.position, 0);
 	GetComponent<GOCEffect>()->CreateEffect(particleName, nullptr);
-}
-
-const GameObjectClass* ObjHomingGismo::GetClass()
-{
-	return &gameObjectClass;
 }

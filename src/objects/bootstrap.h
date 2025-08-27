@@ -15,11 +15,27 @@ HOOK(uint64_t, __fastcall, GameModeCyberStageInit, 0x1401B4100, app::game::GameM
 	return res;
 }
 
+HOOK(void, __fastcall, GameModeResourceModuleLoad, 0x1401E8C90, app::game::GameModeResourceModule* self) {
+	originalGameModeResourceModuleLoad(self);
+	if (auto* objInfoContainer = hh::game::GameManager::GetInstance()->GetService<hh::game::ObjInfoContainer>()) {
+		auto* itemBox = revisited::objects::ObjItemBoxInfo::GetClass()->instantiator(self->GetAllocator());
+		objInfoContainer->Register(itemBox->GetInfoName(), itemBox);
+	}
+};
+
 namespace revisited::objects {
 	template<typename T>
 	void registerRFL() {
 		hh::fnd::RflClassNameRegistry::GetInstance()->Register(&T::rflClass);
 		hh::fnd::RflTypeInfoRegistry::GetInstance()->Register(&T::rflTypeInfo);
+	}
+
+	template<typename T>
+	void registerObjInfo() {
+		hh::game::ObjInfoClass* obj = (hh::game::ObjInfoClass*)T::GetClass();
+		auto* instance = hh::game::ObjInfoRegistry::GetInstance();
+		instance->objInfos.push_back(obj);
+		instance->objInfosByName.Insert(obj->name, obj);
 	}
 
 	template<typename T>
@@ -33,6 +49,7 @@ namespace revisited::objects {
 		registerRFL<ObjHomingGismoSpawner>();
 		registerRFL<StageIntro>();
 		registerRFL<Stage>();
+		registerObjInfo<ObjItemBoxInfo>();
 		//registerRFL<ObjTestBossSpawner>();
 		registerObject<ObjItemBox>();
 		registerObject<ObjHomingGismo>();
@@ -41,13 +58,10 @@ namespace revisited::objects {
 		auto* allocator = hh::fnd::MemoryRouter::GetModuleAllocator();
 		auto* resLoader = hh::fnd::ResourceLoader::Create(allocator);
 
-		resLoader->LoadPackfile("stage/RevisitedObject.pac");
 		resLoader->LoadPackfile("ui/ui_revisited_stage.pac");
-		hh::fnd::InplaceTempUri<> uri{ "sound/revisited_sound/se_revisited_object.acb"};
-		hh::fnd::ResourceLoader::Locale locale{};
-		resLoader->LoadResource(uri, hh::snd::ResAtomCueSheet::GetTypeInfo(), 0, 0, locale);
 
 		INSTALL_HOOK(GameModeCyberStageInit);
+		INSTALL_HOOK(GameModeResourceModuleLoad);
 
 		INSTALL_HOOK(ResultAddCallback);
 

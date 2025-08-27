@@ -9,6 +9,7 @@ target_sources(mod
         Mod.cpp
         objects/dv/DvIslandIntro.cpp
         objects/itemBox/ObjItemBox.cpp
+        objects/itemBox/ObjItemBoxInfo.cpp
         objects/itemBox/ObjItemBoxSpawner.cpp
         objects/itemBox/UIItemBox.cpp
         objects/titlecard/rfl/Stage.cpp
@@ -25,7 +26,6 @@ target_sources(mod
         utilities/GameHelpers.h
         objects/bootstrap.h
         objects/dv/DvIslandIntro.h
-        objects/itemBox/ObjItemBoxSpawner.h
         objects/itemBox/ObjItemBox.h
         objects/itemBox/UIItemBox.h
         objects/titlecard/UIStageIntro.h
@@ -42,4 +42,4 @@ target_sources(mod
         needle/bootstrap.h
         needle/RenderTexturePostEffectPipelineHooks.h
         needle/RenderTexturePostPipeline.h
-  )
+   )
