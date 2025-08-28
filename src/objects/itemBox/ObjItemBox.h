@@ -65,7 +65,6 @@ namespace revisited::objects {
 		void PostDestroyCallback();
 		inline void GivePlayerRings(unsigned int amount) { GiveObject(amount, app::MsgTakeObject::Type::RING); }
 		void GiveObject(unsigned int amount, app::MsgTakeObject::Type type);
-		void SetEnabled(bool enabled);
 		csl::math::Vector3 CalculateBounce();
 		void SendBounceMessage();
 	};

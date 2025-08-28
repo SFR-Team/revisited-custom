@@ -35,6 +35,7 @@ namespace revisited::player {
 		csl::ut::Bitset<Flags> flags{};
 		app::Timer ultraTime{};
 		app::Timer infiniteBoost{};
+		char lastBgm[32];
 		Reference<StatePluginBoost> boostPlugin{};
 		Reference<app::ui::UIStaminaGaugeContext> uiStaminaGaugeCtx{};
 

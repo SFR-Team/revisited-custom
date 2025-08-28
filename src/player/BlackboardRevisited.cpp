@@ -14,6 +14,8 @@ void BlackboardRevisited::PreGameUpdateCallback(GameManager* gameManager, const 
 		ultraTime.Add(updateInfo.deltaTime);
 	if (flags.test(Flags::ULTRA) && ultraTime.IsFinished()) {
 		StopEffects("ultra", invincibilityEffects);
+		if (auto* soundDirector = GameManager::GetInstance()->GetService<SoundDirector>())
+			soundDirector->PlayBgm({ lastBgm, 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 0x10001, 0 });
 		flags.set(Flags::ULTRA, false);
 	}
 
@@ -42,8 +44,10 @@ void BlackboardRevisited::GiveInvincibility()
 	PlayEffects("ultra", invincibilityEffects);
 	flags.set(Flags::ULTRA, true);
 	ultraTime.Set(20);
-	if (auto* soundDirector = GameManager::GetInstance()->GetService<SoundDirector>())
+	if (auto* soundDirector = GameManager::GetInstance()->GetService<SoundDirector>()) {
+		strcpy(lastBgm, soundDirector->unkA0[0].name);
 		soundDirector->PlayBgm({ "invincibility", 0, 0.0f, 0.0f, 0.0f, 1.0f, 0, 0x10001, 0 });
+	}
 }
 
 void BlackboardRevisited::GiveMagnetic()

@@ -37,7 +37,9 @@ bool ObjItemBox::ProcessMessage(Message& message)
 {
 	switch (message.ID) {
 	case MessageID::TRIGGER_ENTER: {
-		DestroyCallback();
+		if (auto* gocCollider = GetComponent<GOCSphereCollider>())
+			if (gocCollider->flags.test(GOCCollider::Flag::ENABLED))
+				DestroyCallback();
 		return true;
 	}
 	case MessageID::GET_HOMING_TARGET_INFO: {
@@ -49,10 +51,6 @@ bool ObjItemBox::ProcessMessage(Message& message)
 
 		msg.homingTargetInfo.SetSize(.5f, .5f);
 		msg.homingTargetInfo.SetWorldPosition(worldPos);
-		return true;
-	}
-	case MessageID::PARAM_CHANGED_IN_EDITOR: {
-		SetEnabled(true);
 		return true;
 	}
 	default:
@@ -187,6 +185,8 @@ void ObjItemBox::DestroyCallback()
 	gocAnim->Play("get");
 	animationTimer.Set(gocAnim->GetDuration("get") - 0.01f);
 
+	GetComponent<GOCSphereCollider>()->SetEnabled(false);
+
 	GetComponent<GOCSound>()->Play3D("obj_itembox", GetComponent<GOCTransform>()->GetFrame().fullTransform.position, 0);
 
 	GetComponent<GOCEffect>()->CreateEffect("ef_ob_itembox_get01", nullptr);
@@ -202,7 +202,9 @@ void ObjItemBox::DestroyCallback()
 
 void ObjItemBox::PostDestroyCallback()
 {
-	SetEnabled(false);
+	status->SetObjectState(0, false);
+	GetComponent<GOCActivator>()->enabled = false;
+	GetComponent<GOCVisualModel>()->SetVisible(false);
 }
 
 void ObjItemBox::GiveObject(unsigned int amount, MsgTakeObject::Type type)
@@ -212,14 +214,6 @@ void ObjItemBox::GiveObject(unsigned int amount, MsgTakeObject::Type type)
 	msg.showEffect = true;
 	msg.objectType = type;
 	ut::SendMessageImmToPlayerObject(*this, 0, msg);
-}
-
-void ObjItemBox::SetEnabled(bool enabled)
-{
-	status->SetObjectState(0, !enabled);
-	GetComponent<GOCActivator>()->enabled = enabled;
-	GetComponent<GOCSphereCollider>()->SetEnabled(enabled);
-	GetComponent<GOCVisualModel>()->SetVisible(enabled);
 }
 
 csl::math::Vector3 ObjItemBox::CalculateBounce()

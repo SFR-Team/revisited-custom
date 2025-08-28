@@ -7,9 +7,9 @@ void DamageWhileBoost(app::player::PlayerHsmContext* ctx) {
 	if (auto* battle = ctx->gocPlayerBlackboard->blackboard->GetContent<app::player::BlackboardBattle>()) {
 		if (auto* status = ctx->blackboardStatus) {
 			bool boosting = status->GetStateFlag(app::player::BlackboardStatus::StateFlag::BOOST);
-			//bool powerBoost = status->GetWorldFlag(app::player::BlackboardStatus::WorldFlag::POWER_BOOST);
+			bool powerBoost = status->GetWorldFlag(app::player::BlackboardStatus::WorldFlag::POWER_BOOST);
 			if (boosting &&
-				//powerBoost &&
+				powerBoost &&
 				!wasDamageSet)
 			{
 				collision->SetTypeAndRadius(2, true);
@@ -34,8 +34,53 @@ HOOK(bool, __fastcall, StateRunUpdateAsync, 0x140964B00, app::player::PlayerStat
 	return res;
 }
 
+HOOK(bool, __fastcall, StateGrindUpdateAsync, 0x14B618E60, app::player::PlayerStateBase* self, app::player::PlayerHsmContext* ctx) {
+	auto res = originalStateGrindUpdateAsync(self, ctx);
+
+	DamageWhileBoost(ctx);
+
+	return res;
+}
+
+HOOK(bool, __fastcall, StateAirBoostUpdateAsync, 0x14B577D60, app::player::PlayerStateBase* self, app::player::PlayerHsmContext* ctx) {
+	auto res = originalStateAirBoostUpdateAsync(self, ctx);
+
+	DamageWhileBoost(ctx);
+
+	return res;
+}
+
+HOOK(bool, __fastcall, StateLeftStepRunUpdate, 0x140965B00, app::player::PlayerStateBase* self, app::player::PlayerHsmContext* ctx) {
+	auto res = originalStateLeftStepRunUpdate(self, ctx);
+
+	DamageWhileBoost(ctx);
+
+	return res;
+}
+
+HOOK(bool, __fastcall, StateRightStepRunUpdate, 0x140965B00, app::player::PlayerStateBase* self, app::player::PlayerHsmContext* ctx) {
+	auto res = originalStateRightStepRunUpdate(self, ctx);
+
+	DamageWhileBoost(ctx);
+
+	return res;
+}
+
+HOOK(bool, __fastcall, StateDriftDashUpdateAsync, 0x1409566D0, app::player::PlayerStateBase* self, app::player::PlayerHsmContext* ctx) {
+	auto res = originalStateDriftDashUpdateAsync(self, ctx);
+
+	DamageWhileBoost(ctx);
+
+	return res;
+}
+
 namespace revisited::player {
 	void bootstrapStates() {
 		INSTALL_HOOK(StateRunUpdateAsync);
+		INSTALL_HOOK(StateGrindUpdateAsync);
+		INSTALL_HOOK(StateAirBoostUpdateAsync);
+		INSTALL_HOOK(StateLeftStepRunUpdate);
+		INSTALL_HOOK(StateRightStepRunUpdate);
+		INSTALL_HOOK(StateDriftDashUpdateAsync);
 	}
 }
