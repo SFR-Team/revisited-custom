@@ -287,3 +287,11 @@ if (std::abs(name - b) < r) \
 
 #define FLOAT_PERCENT_TO_UINT8(value) ((value) < 0.0f ? 0 : (value) > 100.0f ? 255 : (uint8_t)((value) / 100.0f * 255.0f))
 #define FLOAT_PERCENT_TO_UINT16(value) ((value) < 0.0f ? 0 : (value) > 100.0f ? 65535 : (uint16_t)((value) / 100.0f * 65535.0f))
+
+template<typename T>
+void WriteProtected(uintptr_t address, T value) {
+    DWORD oldProtect;
+    VirtualProtect(reinterpret_cast<void*>(address), sizeof(T), PAGE_EXECUTE_READWRITE, &oldProtect);
+    *reinterpret_cast<T*>(address) = value;
+    VirtualProtect(reinterpret_cast<void*>(address), sizeof(T), oldProtect, &oldProtect);
+}

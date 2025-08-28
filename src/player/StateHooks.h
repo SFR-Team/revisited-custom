@@ -95,6 +95,18 @@ HOOK(void, __fastcall, StateDropDashLeave, 0x140956CA0, app::player::PlayerState
 	DamageWhileBoost(ctx, false);
 }
 
+HOOK(bool, __fastcall, StateSpringJumpHeadLandStep, 0x140983CD0, app::player::PlayerStateBase* self, app::player::PlayerHsmContext* ctx) {
+	auto res = originalStateSpringJumpHeadLandStep(self, ctx);
+
+	DamageWhileBoost(ctx, true);
+
+	return res;
+}
+
+void StateSpringJumpHeadLandLeave(app::player::PlayerStateBase* self, app::player::PlayerHsmContext* ctx, int nextState) {
+	DamageWhileBoost(ctx, false);
+}
+
 namespace revisited::player {
 	void bootstrapStates() {
 		INSTALL_HOOK(StateRunStep);
@@ -106,5 +118,7 @@ namespace revisited::player {
 		INSTALL_HOOK(StateDriftDashLeave);
 		INSTALL_HOOK(StateDropDashStep);
 		INSTALL_HOOK(StateDropDashLeave);
+		INSTALL_HOOK(StateSpringJumpHeadLandStep);
+		WriteProtected<void*>(0x141544FC8, (void*)&StateSpringJumpHeadLandLeave);
 	}
 }
