@@ -16,7 +16,6 @@ namespace revisited::objects {
 		ItemType type;
 		bool isAir;
 		bool canAirDashRocket;
-		bool doBounce;
 
 		static const hh::fnd::RflClass rflClass;
 		static const hh::fnd::RflTypeInfo rflTypeInfo;
@@ -54,7 +53,6 @@ namespace revisited::objects {
 
 		ObjItemBoxSpawner::ItemType type{ ObjItemBoxSpawner::ItemType::ROCKET };
 		bool canAirDashRocket{ false };
-		bool doBounce{ true };
 		app::Timer animationTimer{};
 	public:
 		virtual bool ProcessMessage(hh::fnd::Message& message) override;

@@ -22,13 +22,11 @@ const RflClassEnum spawnerEnums[]{
 CAPTION_ATTRIBUTE(type)
 CAPTION_ATTRIBUTE(isAir)
 CAPTION_ATTRIBUTE(canAirDashRocket)
-CAPTION_ATTRIBUTE(doBounce)
 
 const RflClassMember spawnerMembers[]{
 	{ "type",			  nullptr, &spawnerEnums[0], RflClassMember::Type::ENUM, RflClassMember::Type::UINT8, 0, 0, offsetof(ObjItemBoxSpawner, type),			   &typeAttributes },
 	{ "isAir",			  nullptr, nullptr,			 RflClassMember::Type::BOOL, RflClassMember::Type::VOID,  0, 0, offsetof(ObjItemBoxSpawner, isAir),			   &isAirAttributes },
-	{ "canAirDashRocket", nullptr, nullptr,			 RflClassMember::Type::BOOL, RflClassMember::Type::VOID,  0, 0, offsetof(ObjItemBoxSpawner, canAirDashRocket), &canAirDashRocketAttributes },
-	{ "doBounce",		  nullptr, nullptr,			 RflClassMember::Type::BOOL, RflClassMember::Type::VOID,  0, 0, offsetof(ObjItemBoxSpawner, doBounce),		   &doBounceAttributes }
+	{ "canAirDashRocket", nullptr, nullptr,			 RflClassMember::Type::BOOL, RflClassMember::Type::VOID,  0, 0, offsetof(ObjItemBoxSpawner, canAirDashRocket), &canAirDashRocketAttributes }
 };
 
 RFL_CLASS(ObjItemBoxSpawner);
@@ -37,7 +35,6 @@ RFL_TYPE_INFO_FUNCS(ObjItemBoxSpawner, {
 	self->type = ObjItemBoxSpawner::ItemType::ROCKET;
 	self->isAir = false;
 	self->canAirDashRocket = false;
-	self->doBounce = true;
 });
 
 RFL_TYPE_INFO(ObjItemBoxSpawner)

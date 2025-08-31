@@ -71,7 +71,6 @@ void ObjItemBox::AddCallback(GameManager* gameManager)
 
 	type = worldData->type;
 	canAirDashRocket = worldData->canAirDashRocket;
-	doBounce = worldData->doBounce;
 	bool isAir = worldData->isAir;
 
 	auto* objInfo = GetObjInfo<ObjItemBoxInfo>(gameManager);
@@ -196,8 +195,10 @@ void ObjItemBox::DestroyCallback()
 
 	GetComponent<GOCVibration>()->PlayVibration("low", 0);
 
-	if (doBounce)
-		SendBounceMessage();
+	if (auto* player = GetPlayer())
+		if (auto* hsm = player->GetComponent<GOCPlayerHsm>())
+			if (hsm->GetCurrentState() == 0x3F)
+				SendBounceMessage();
 }
 
 void ObjItemBox::PostDestroyCallback()
