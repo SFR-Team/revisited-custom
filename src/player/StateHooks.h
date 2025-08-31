@@ -1,6 +1,6 @@
 #pragma once
 
-void DamageWhileBoost(app::player::PlayerHsmContext* ctx, bool boost = false) {
+void DamageWhileBoost(app::player::PlayerHsmContext* ctx, bool boost = false, bool typeOne = true) {
 	static bool wasDamageSet = false;
 
 	if (auto* collision = ctx->gocPlayerHsm->statePluginManager->GetPlugin<app::player::StatePluginCollision>()) {
@@ -14,13 +14,15 @@ void DamageWhileBoost(app::player::PlayerHsmContext* ctx, bool boost = false) {
 				!wasDamageSet)
 			{
 				collision->SetTypeAndRadius(2, 1);
-				collision->SetTypeAndRadius(1, 1);
+				if (typeOne)
+					collision->SetTypeAndRadius(1, 1);
 				battle->SetFlag020(false);
 				wasDamageSet = true;
 			}
 			else if (wasDamageSet) {
 				collision->SetTypeAndRadius(2, 0);
-				collision->SetTypeAndRadius(1, 0);
+				if (typeOne)
+					collision->SetTypeAndRadius(1, 0);
 				battle->SetFlag020(true);
 				wasDamageSet = false;
 			}
@@ -72,7 +74,7 @@ HOOK(bool, __fastcall, StateRightStepRunUpdate, 0x140965B00, app::player::Player
 HOOK(bool, __fastcall, StateDriftDashStep, 0x1409566D0, app::player::PlayerStateBase* self, app::player::PlayerHsmContext* ctx) {
 	auto res = originalStateDriftDashStep(self, ctx);
 
-	DamageWhileBoost(ctx, true);
+	DamageWhileBoost(ctx, true, false);
 
 	return res;
 }
@@ -80,13 +82,13 @@ HOOK(bool, __fastcall, StateDriftDashStep, 0x1409566D0, app::player::PlayerState
 HOOK(void, __fastcall, StateDriftDashLeave, 0x140956450, app::player::PlayerStateBase* self, app::player::PlayerHsmContext* ctx, int nextState) {
 	originalStateDriftDashLeave(self, ctx, nextState);
 
-	DamageWhileBoost(ctx, false);
+	DamageWhileBoost(ctx, false, false);
 }
 
 HOOK(bool, __fastcall, StateDropDashStep, 0x140956D20, app::player::PlayerStateBase* self, app::player::PlayerHsmContext* ctx) {
 	auto res = originalStateDropDashStep(self, ctx);
 
-	DamageWhileBoost(ctx, true);
+	DamageWhileBoost(ctx, true, false);
 
 	return res;
 }
@@ -94,19 +96,19 @@ HOOK(bool, __fastcall, StateDropDashStep, 0x140956D20, app::player::PlayerStateB
 HOOK(void, __fastcall, StateDropDashLeave, 0x140956CA0, app::player::PlayerStateBase* self, app::player::PlayerHsmContext* ctx, int nextState) {
 	originalStateDropDashLeave(self, ctx, nextState);
 
-	DamageWhileBoost(ctx, false);
+	DamageWhileBoost(ctx, false, false);
 }
 
 HOOK(bool, __fastcall, StateSpringJumpHeadLandStep, 0x140983CD0, app::player::PlayerStateBase* self, app::player::PlayerHsmContext* ctx) {
 	auto res = originalStateSpringJumpHeadLandStep(self, ctx);
 
-	DamageWhileBoost(ctx, true);
+	DamageWhileBoost(ctx, true, false);
 
 	return res;
 }
 
 void StateSpringJumpHeadLandLeave(app::player::PlayerStateBase* self, app::player::PlayerHsmContext* ctx, int nextState) {
-	DamageWhileBoost(ctx, false);
+	DamageWhileBoost(ctx, false, false);
 }
 
 namespace revisited::player {
