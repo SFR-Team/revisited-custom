@@ -14,15 +14,11 @@ void DamageWhileBoost(app::player::PlayerHsmContext* ctx, bool boost = false, bo
 				!wasDamageSet)
 			{
 				collision->SetTypeAndRadius(2, 1);
-				if (typeOne)
-					collision->SetTypeAndRadius(1, 1);
 				battle->SetFlag020(false);
 				wasDamageSet = true;
 			}
 			else if (wasDamageSet) {
 				collision->SetTypeAndRadius(2, 0);
-				if (typeOne)
-					collision->SetTypeAndRadius(1, 0);
 				battle->SetFlag020(true);
 				wasDamageSet = false;
 			}
