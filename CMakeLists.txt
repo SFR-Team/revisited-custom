@@ -71,16 +71,23 @@ if(!IS_ACTIONS)
     install(TARGETS mod RUNTIME DESTINATION "${MOD_FOLDER}")
     install(DIRECTORY resources/ DESTINATION "${MOD_FOLDER}")
     install(FILES LICENSE.txt "${CMAKE_CURRENT_BINARY_DIR}/mod.ini" DESTINATION "${MOD_FOLDER}")
+    install(CODE "
+        file(MAKE_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}/archives\")
+        execute_process(
+            COMMAND \$\{CMAKE_COMMAND} \"-E\" \"tar\" \"cvf\" \"${CMAKE_CURRENT_BINARY_DIR}/archives/${PROJECT_NAME}-v${PROJECT_VERSION}.zip\" \"--format=zip\" \"${PROJECT_NAME}\"
+            WORKING_DIRECTORY \"${MODS_FOLDER}\"
+        )
+    ")
 else()
     install(TARGETS mod RUNTIME DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/artifacts/${PROJECT_NAME}")
     install(DIRECTORY resources/ DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/artifacts/${PROJECT_NAME}")
     install(FILES LICENSE.txt "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/mod.ini" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/artifacts/${PROJECT_NAME}")
+    install(CODE "
+        execute_process(
+            COMMAND \$\{CMAKE_COMMAND} \"-E\" \"tar\" \"cvf\" \"${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.zip\" \"--format=zip\" \"${CMAKE_PROJECT_NAME}\"
+            WORKING_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}/artifacts/${CMAKE_PROJECT_NAME}\"
+        )
+    ")
 endif()
 
-install(CODE "
-    file(MAKE_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}\")
-    execute_process(
-        COMMAND \$\{CMAKE_COMMAND} \"-E\" \"tar\" \"cvf\" \"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.zip\" \"--format=zip\" \"${PROJECT_NAME}\"
-        WORKING_DIRECTORY \"${MODS_FOLDER}\"
-    )
-")
+
