@@ -109,7 +109,7 @@ void StateSpringJumpHeadLandLeave(app::player::PlayerStateBase* self, app::playe
 
 namespace revisited::player {
 	void bootstrapStates() {
-		INSTALL_HOOK(StateRunStep);
+		/*INSTALL_HOOK(StateRunStep);
 		INSTALL_HOOK(StateGrindStep);
 		INSTALL_HOOK(StateAirBoostStep);
 		INSTALL_HOOK(StateLeftStepRunUpdate);
@@ -119,6 +119,6 @@ namespace revisited::player {
 		INSTALL_HOOK(StateDropDashStep);
 		INSTALL_HOOK(StateDropDashLeave);
 		INSTALL_HOOK(StateSpringJumpHeadLandStep);
-		WriteProtected<void*>(0x141544FC8, (void*)&StateSpringJumpHeadLandLeave);
+		WriteProtected<void*>(0x141544FC8, (void*)&StateSpringJumpHeadLandLeave);*/
 	}
 }
