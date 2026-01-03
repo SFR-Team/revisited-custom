@@ -24,4 +24,4 @@ jobs:
             - uses: actions/upload-artifact@v4
               with:
                   name: revisited-custom
-                  path: out/build/actions-release/revisited-custom.dll
+                  path: out/build/actions-release/revisited-custom.zip
