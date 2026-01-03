@@ -84,7 +84,7 @@ else()
     install(FILES LICENSE.txt "${CMAKE_CURRENT_BINARY_DIR}/mod.ini" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/artifacts/${PROJECT_NAME}")
     install(CODE "
         execute_process(
-            COMMAND \$\{CMAKE_COMMAND} \"-E\" \"tar\" \"cvf\" \"${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.zip\" \"--format=zip\" \"${CMAKE_PROJECT_NAME}\"
+            COMMAND \$\{CMAKE_COMMAND} \"-E\" \"tar\" \"cvf\" \"${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.zip\" \"--format=zip\" \".\"
             WORKING_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}/artifacts/${CMAKE_PROJECT_NAME}\"
         )
     ")
