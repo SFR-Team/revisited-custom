@@ -58,24 +58,29 @@ endforeach()
 add_subdirectory(src)
 
 option(IS_ACTIONS "Is being built via actions" OFF)
+
+configure_file(mod.ini.in mod.ini)
+configure_file(mod_version.ini.in mod_version.ini)
+
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT mod)
+
+cmake_path(APPEND GAME_FOLDER_NORMALIZED "Mods" OUTPUT_VARIABLE MODS_FOLDER)
+cmake_path(APPEND MODS_FOLDER "${PROJECT_NAME}" OUTPUT_VARIABLE MOD_FOLDER)
+
 if(!IS_ACTIONS)
-    configure_file(mod.ini.in mod.ini)
-    configure_file(mod_version.ini.in mod_version.ini)
-
-    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT mod)
-
-    cmake_path(APPEND GAME_FOLDER_NORMALIZED "Mods" OUTPUT_VARIABLE MODS_FOLDER)
-    cmake_path(APPEND MODS_FOLDER "${PROJECT_NAME}" OUTPUT_VARIABLE MOD_FOLDER)
-
     install(TARGETS mod RUNTIME DESTINATION "${MOD_FOLDER}")
     install(DIRECTORY resources/ DESTINATION "${MOD_FOLDER}")
-    install(FILES LICENSE.txt CHANGELOG.md "${CMAKE_CURRENT_BINARY_DIR}/mod.ini" DESTINATION "${MOD_FOLDER}")
-
-    install(CODE "
-        file(MAKE_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}/archives\")
-        execute_process(
-            COMMAND \$\{CMAKE_COMMAND} \"-E\" \"tar\" \"cvf\" \"${CMAKE_CURRENT_BINARY_DIR}/archives/${PROJECT_NAME}-v${PROJECT_VERSION}.zip\" \"--format=zip\" \"${PROJECT_NAME}\"
-            WORKING_DIRECTORY \"${MODS_FOLDER}\"
-        )
-    ")
+    install(FILES LICENSE.txt "${CMAKE_CURRENT_BINARY_DIR}/mod.ini" DESTINATION "${MOD_FOLDER}")
+else()
+    install(TARGETS mod RUNTIME DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/artifacts/${PROJECT_NAME}")
+    install(DIRECTORY resources/ DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/artifacts/${PROJECT_NAME}")
+    install(FILES LICENSE.txt "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/mod.ini" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/artifacts/${PROJECT_NAME}")
 endif()
+
+install(CODE "
+    file(MAKE_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}\")
+    execute_process(
+        COMMAND \$\{CMAKE_COMMAND} \"-E\" \"tar\" \"cvf\" \"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.zip\" \"--format=zip\" \"${PROJECT_NAME}\"
+        WORKING_DIRECTORY \"${MODS_FOLDER}\"
+    )
+")
