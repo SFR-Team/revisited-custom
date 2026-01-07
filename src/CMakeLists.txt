@@ -37,9 +37,10 @@ target_sources(mod
         player/bootstrap.h
         player/BlackboardRevisited.h
         player/StateHooks.h
+        player/CyberCyloop.h
         dv/bootstrap.h
         dv/DvElementIslandIntro.h
         needle/bootstrap.h
         needle/RenderTexturePostEffectPipelineHooks.h
         needle/RenderTexturePostPipeline.h
-   )
+)

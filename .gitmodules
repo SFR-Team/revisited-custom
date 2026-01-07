@@ -3,4 +3,4 @@
 	url = https://github.com/microsoft/Detours
 [submodule "rangers-sdk"]
 	path = rangers-sdk
-	url = https://www.github.com/HE2-SDK/rangers-sdk
+	url = https://www.github.com/Ashrindy/rangers-sdk
