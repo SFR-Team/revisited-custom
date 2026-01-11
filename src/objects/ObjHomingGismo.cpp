@@ -100,7 +100,7 @@ void ObjHomingGismo::AddCallback(GameManager* gameManager)
 	GOCSphereCollider::SetupInfo gocColliderDesc{};
 	gocColliderDesc.radius = .5f;
 	gocColliderDesc.filterCategory = 18;
-	gocColliderDesc.unk4 = 0x8000;
+	gocColliderDesc.filterFlags = 0x8000;
 	gocColliderDesc.SetPosition(csl::math::Vector3{ 0.0, 0.6f, 0.0 });
 
 	auto* gocCollider = CreateComponent<GOCSphereCollider>();
