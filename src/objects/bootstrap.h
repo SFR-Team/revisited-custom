@@ -7,7 +7,6 @@
 #include "result/ResultHooks.h"
 #include "result/UIResultModel.h"
 #include "UIGameCockpitHooks.h"
-//#include "custom/ObjTestBoss.h"
 
 HOOK(uint64_t, __fastcall, GameModeCyberStageInit, 0x1401B4100, app::game::GameMode* self) {
 	auto res = originalGameModeCyberStageInit(self);
@@ -50,10 +49,8 @@ namespace revisited::objects {
 		registerRFL<StageIntro>();
 		registerRFL<Stage>();
 		registerObjInfo<ObjItemBoxInfo>();
-		//registerRFL<ObjTestBossSpawner>();
 		registerObject<ObjItemBox>();
 		registerObject<ObjHomingGismo>();
-		//registerObject<ObjTestBoss>();
 
 		auto* allocator = hh::fnd::MemoryRouter::GetModuleAllocator();
 		auto* resLoader = hh::fnd::ResourceLoader::Create(allocator);
