@@ -14,6 +14,9 @@ target_sources(mod
         objects/costumeSwitcher/ObjCostumeSwitcher.cpp
         objects/costumeSwitcher/ObjCostumeSwitcherSpawner.cpp
         objects/costumeSwitcher/ObjCostumeSwitcherInfo.cpp
+        objects/characterSwitcher/ObjCharacterSwitcher.cpp
+        objects/characterSwitcher/ObjCharacterSwitcherSpawner.cpp
+        objects/characterSwitcher/ObjCharacterSwitcherInfo.cpp
         objects/itemBox/ObjItemBox.cpp
         objects/itemBox/ObjItemBoxInfo.cpp
         objects/itemBox/ObjItemBoxSpawner.cpp
@@ -34,6 +37,7 @@ target_sources(mod
         objects/dv/DvIslandIntro.h
         objects/gimmicks/ObjBigThornBall.h
         objects/costumeSwitcher/ObjCostumeSwitcher.h
+        objects/characterSwitcher/ObjCharacterSwitcher.h
         objects/itemBox/ObjItemBox.h
         objects/itemBox/UIItemBox.h
         objects/titlecard/UIStageIntro.h

@@ -2,6 +2,7 @@
 #include "dv/DvIslandIntro.h"
 #include "gimmicks/ObjBigThornBall.h"
 #include "costumeSwitcher/ObjCostumeSwitcher.h"
+#include "characterSwitcher/ObjCharacterSwitcher.h"
 #include "itemBox/ObjItemBox.h"
 #include "itemBox/UIItemBox.h"
 #include "ObjHomingGismo.h"
@@ -50,15 +51,18 @@ namespace revisited::objects {
 		registerRFL<ObjHomingGismoSpawner>();
 		registerRFL<ObjBigThornBallSpawner>();
 		registerRFL<ObjCostumeSwitcherSpawner>();
+		registerRFL<ObjCharacterSwitcherSpawner>();
 		registerRFL<StageIntro>();
 		registerRFL<Stage>();
 		registerObjInfo<ObjItemBoxInfo>();
 		registerObjInfo<ObjBigThornBallInfo>();
 		registerObjInfo<ObjCostumeSwitcherInfo>();
+		registerObjInfo<ObjCharacterSwitcherInfo>();
 		registerObject<ObjItemBox>();
 		registerObject<ObjHomingGismo>();
 		registerObject<ObjBigThornBall>();
 		registerObject<ObjCostumeSwitcher>();
+		registerObject<ObjCharacterSwitcher>();
 
 		auto* allocator = hh::fnd::MemoryRouter::GetModuleAllocator();
 		auto* resLoader = hh::fnd::ResourceLoader::Create(allocator);
