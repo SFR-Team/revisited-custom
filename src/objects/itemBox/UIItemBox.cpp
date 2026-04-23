@@ -1,5 +1,4 @@
 #include "UIItemBox.h"
-#include "utilities/GameHelpers.h"
 
 using namespace csl::fnd;
 

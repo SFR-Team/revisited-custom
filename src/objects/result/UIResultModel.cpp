@@ -1,5 +1,4 @@
 #include "UIResultModel.h"
-#include "../../utilities/GameHelpers.h"
 
 using namespace csl::fnd;
 

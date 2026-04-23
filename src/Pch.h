@@ -14,6 +14,9 @@
 #include <rangers-sdk.h>
 
 #include <utilities/Helpers.h>
+#include <utilities/GameHelpers.h>
+
+#define ARRAY_SIZE(x) sizeof(x) / sizeof(x[0])
 
 #ifndef PCH_H
 #define PCH_H

@@ -1,5 +1,4 @@
 #include "ObjItemBox.h"
-#include "utilities/GameHelpers.h"
 
 using namespace hh::fnd;
 

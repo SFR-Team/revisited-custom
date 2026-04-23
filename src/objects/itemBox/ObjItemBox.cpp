@@ -90,10 +90,10 @@ void ObjItemBox::AddCallback(GameManager* gameManager)
 
 	GOCSphereCollider::SetupInfo gocColliderDesc{};
 	gocColliderDesc.radius = .5f;
-	gocColliderDesc.filterCategory = 18;
+	gocColliderDesc.layer = GOCCollider::LayerType::GIMMICK;
 	gocColliderDesc.unk2 = 0;
 	gocColliderDesc.overlapFlags.set(GOCCollider::OverlapFlag::ENTER);
-	gocColliderDesc.filterFlags = 0x8000;
+	gocColliderDesc.hitFlags = 0x8000;
 	gocColliderDesc.SetPosition(csl::math::Vector3{ 0, 0.8f, 0 });
 
 	auto* gocCollider = CreateComponent<GOCSphereCollider>();

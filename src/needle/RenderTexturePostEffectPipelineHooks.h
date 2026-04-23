@@ -31,7 +31,7 @@ void UnkJob(PipelineInfo* pipelineInfo, unsigned int viewportId, void* userData)
 	auto* supportFx = pipelineInfo->supportFX;
 	auto* ctx = supportFx->GetRenderingContext2();
 	auto* renderTarget = (RenderTarget*)*pipeline->renderTextureHandle->GetRenderTarget(0);
-	auto* copyColor = supportFx->copyColor1;
+	auto* copyColor = supportFx->copyColor;
 	auto* renderTargetManager = supportFx->renderManager->renderTargetManager;
 	UnkInfo unkInfo{};
 	unkInfo.type = renderTarget->format.type;

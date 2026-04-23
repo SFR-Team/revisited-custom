@@ -1,5 +1,7 @@
 #pragma once
 #include "dv/DvIslandIntro.h"
+#include "gimmicks/ObjBigThornBall.h"
+#include "costumeSwitcher/ObjCostumeSwitcher.h"
 #include "itemBox/ObjItemBox.h"
 #include "itemBox/UIItemBox.h"
 #include "ObjHomingGismo.h"
@@ -46,11 +48,17 @@ namespace revisited::objects {
 	void bootstrap() {
 		registerRFL<ObjItemBoxSpawner>();
 		registerRFL<ObjHomingGismoSpawner>();
+		registerRFL<ObjBigThornBallSpawner>();
+		registerRFL<ObjCostumeSwitcherSpawner>();
 		registerRFL<StageIntro>();
 		registerRFL<Stage>();
 		registerObjInfo<ObjItemBoxInfo>();
+		registerObjInfo<ObjBigThornBallInfo>();
+		registerObjInfo<ObjCostumeSwitcherInfo>();
 		registerObject<ObjItemBox>();
 		registerObject<ObjHomingGismo>();
+		registerObject<ObjBigThornBall>();
+		registerObject<ObjCostumeSwitcher>();
 
 		auto* allocator = hh::fnd::MemoryRouter::GetModuleAllocator();
 		auto* resLoader = hh::fnd::ResourceLoader::Create(allocator);

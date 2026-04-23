@@ -134,3 +134,12 @@ static Eigen::Affine3f TransformToAffine3f(const csl::math::Transform& transform
     const ObjInfoClass* NAME##::GetClass(){ \
         return &objInfoClass; \
     }
+
+constexpr unsigned int name_hash(const char* str) {
+    unsigned int hash{ 0 };
+
+    while (*str)
+        hash = *str++ + 31 * hash;
+
+    return hash & 0x7FFFFFFF;
+}

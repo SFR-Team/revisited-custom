@@ -8,6 +8,12 @@ target_sources(mod
         DllMain.cpp
         Mod.cpp
         objects/dv/DvIslandIntro.cpp
+        objects/gimmicks/ObjBigThornBall.cpp
+        objects/gimmicks/ObjBigThornBallSpawner.cpp
+        objects/gimmicks/ObjBigThornBallInfo.cpp
+        objects/costumeSwitcher/ObjCostumeSwitcher.cpp
+        objects/costumeSwitcher/ObjCostumeSwitcherSpawner.cpp
+        objects/costumeSwitcher/ObjCostumeSwitcherInfo.cpp
         objects/itemBox/ObjItemBox.cpp
         objects/itemBox/ObjItemBoxInfo.cpp
         objects/itemBox/ObjItemBoxSpawner.cpp
@@ -26,6 +32,8 @@ target_sources(mod
         utilities/GameHelpers.h
         objects/bootstrap.h
         objects/dv/DvIslandIntro.h
+        objects/gimmicks/ObjBigThornBall.h
+        objects/costumeSwitcher/ObjCostumeSwitcher.h
         objects/itemBox/ObjItemBox.h
         objects/itemBox/UIItemBox.h
         objects/titlecard/UIStageIntro.h

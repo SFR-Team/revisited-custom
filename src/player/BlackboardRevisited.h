@@ -1,5 +1,4 @@
 #pragma once
-#include "utilities/GameHelpers.h"
 
 using namespace hh::game;
 using namespace hh::eff;

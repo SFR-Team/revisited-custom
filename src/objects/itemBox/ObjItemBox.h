@@ -1,5 +1,4 @@
 #pragma once
-#include "../../utilities/GameHelpers.h"
 
 namespace revisited::objects {
 	struct ObjItemBoxSpawner {

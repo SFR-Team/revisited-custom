@@ -1,5 +1,4 @@
 #include "UIStageIntro.h"
-#include "utilities/GameHelpers.h"
 
 using namespace csl::fnd;
 
