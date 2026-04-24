@@ -2,6 +2,7 @@
 
 using namespace csl::fnd;
 
+using namespace hh::anim;
 using namespace hh::fnd;
 using namespace hh::gfx;
 using namespace hh::game;
@@ -18,10 +19,13 @@ ObjCharacterSwitcherInfo::ObjCharacterSwitcherInfo(IAllocator* allocator) : ObjI
 
 void ObjCharacterSwitcherInfo::Load()
 {
-
+	levelLoader->LoadLevel("eggmanT");
 }
 
 void ObjCharacterSwitcherInfo::Initialize(GameManager* gameManager)
 {
-	model = ResourceManager::GetInstance()->GetResource<ResModel>("chr_sonic");
+	auto* resMgr = ResourceManager::GetInstance();
+	model = resMgr->GetResource<ResModel>("chr_eggmanT");
+	skl = resMgr->GetResource<ResSkeletonPxd>("chr_eggmanT");
+	asmRes = AsmResourceManager::Load("chr_eggmanT", skl, GetAllocator());
 }

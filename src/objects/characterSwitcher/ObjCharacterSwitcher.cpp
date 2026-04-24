@@ -2,6 +2,7 @@
 
 using namespace csl::fnd;
 
+using namespace hh::anim;
 using namespace hh::fnd;
 using namespace hh::game;
 using namespace hh::gfx;
@@ -29,11 +30,22 @@ void ObjCharacterSwitcher::AddCallback(GameManager* gameManager) {
 	auto* objInfo = GetObjInfo<ObjCharacterSwitcherInfo>(gameManager);
 
 	auto model = objInfo->model;
+	auto skl = objInfo->skl;
 	GOCVisualModelDescription gocVisualModelDesc{};
 	gocVisualModelDesc.model = model;
+	gocVisualModelDesc.skeleton = skl;
+	gocVisualModelDesc.flags.bits = 0x2000000;
 	auto* gocVisual = CreateComponent<GOCVisualModel>();
 	gocVisual->Setup(gocVisualModelDesc);
 	AddComponent(gocVisual);
+
+	GOCAnimator::SetupInfo gocAnimatorDesc{};
+	gocAnimatorDesc.asmResourceManager = objInfo->asmRes;
+	gocAnimatorDesc.setPose = true;
+	auto* gocAnimator = CreateComponent<GOCAnimator>();
+	gocAnimator->Setup(gocAnimatorDesc);
+	AddComponent(gocAnimator);
+	gocAnimator->ChangeState("idle");
 
 	GOCGuideCircle::Description gocGuideCircleDesc{};
 	gocGuideCircleDesc.color = GOCGuideCircle::Color::BLUE;

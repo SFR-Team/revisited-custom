@@ -11,6 +11,8 @@ namespace revisited::objects {
 	class ObjCharacterSwitcherInfo : public hh::game::ObjInfo {
 	public:
 		hh::fnd::Reference<hh::gfx::ResModel> model;
+		hh::fnd::Reference<hh::anim::ResSkeletonPxd> skl;
+		hh::fnd::Reference<hh::anim::AsmResourceManager> asmRes;
 
 		OBJINFO_CLASS_DECLARATION(ObjCharacterSwitcherInfo);
 
