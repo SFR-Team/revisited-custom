@@ -72,7 +72,7 @@ static CostumeDescription costumeDescriptions[]{
 	}
 };
 
-GAMEOBJECT_CLASS_RFL_OBJINFO(ObjCostumeSwitcher, Common);
+GAMEOBJECT_CLASS_RFL_OBJINFO(ObjCostumeSwitcher, ObjCostumeSwitcherInfo, Common);
 
 GameObject* ObjCostumeSwitcher::Create(IAllocator* allocator) {
 	return new (allocator) ObjCostumeSwitcher{ allocator };
@@ -104,7 +104,7 @@ void ObjCostumeSwitcher::AddCallback(GameManager* gameManager) {
 	GOCContact::Description gocContactDesc{};
 	gocContactDesc.float64 = 3.1415927f;
 	gocContactDesc.visibleRange = 10;
-	gocContactDesc.range = 4;
+	gocContactDesc.range = GetWorldDataByClass<ObjCostumeSwitcherSpawner>()->interactionRange;
 	gocContactDesc.byte6A = 0x100;
 	gocContactDesc.byte60 = 0x1000000;
 	gocContactDesc.byte68 = 0x101;

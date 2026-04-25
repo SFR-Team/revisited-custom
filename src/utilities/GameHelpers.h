@@ -91,9 +91,9 @@ static Eigen::Affine3f TransformToAffine3f(const csl::math::Transform& transform
         return &gameObjectClass; \
     }
 
-#define GAMEOBJECT_CLASS_RFL_OBJINFO(NAME, CATEGORY) \
+#define GAMEOBJECT_CLASS_RFL_OBJINFO(NAME, INFONAME, CATEGORY) \
     const hh::fnd::RflClassMember::Value gameObjectClassAttributes[]{ \
-        { "objinfo",  hh::fnd::RflClassMember::Type::CSTRING, NAME##Info::GetClass()->name }, \
+        { "objinfo",  hh::fnd::RflClassMember::Type::CSTRING, #INFONAME }, \
         { "category", hh::fnd::RflClassMember::Type::CSTRING, #CATEGORY } \
     }; \
     const GameObjectClass NAME##::gameObjectClass{ \

@@ -2,7 +2,7 @@
 
 namespace revisited::objects {
 	struct ObjCostumeSwitcherSpawner {
-		int dummy;
+		float interactionRange;
 
 		static const hh::fnd::RflClass rflClass;
 		static const hh::fnd::RflTypeInfo rflTypeInfo;

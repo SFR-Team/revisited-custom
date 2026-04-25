@@ -21,7 +21,7 @@ using namespace revisited::objects;
 using namespace revisited::player;
 
 
-GAMEOBJECT_CLASS_RFL_OBJINFO(ObjItemBox, Common);
+GAMEOBJECT_CLASS_RFL_OBJINFO(ObjItemBox, ObjItemBoxInfo, Common);
 
 GameObject* ObjItemBox::Create(IAllocator* allocator) {
 	return new (std::align_val_t(16), allocator) ObjItemBox{ allocator };
