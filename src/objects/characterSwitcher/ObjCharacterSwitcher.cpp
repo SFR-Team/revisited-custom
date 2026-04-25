@@ -108,7 +108,6 @@ void ObjCharacterSwitcher::UpdateAsync(UpdatingPhase phase, const SUpdateInfo& u
 					ut::SendMessageImmToPlayerObject(*this, 0, holdEndMsg);
 
 					GetComponent<GOCContact>()->SetEnabled(true);
-					GetComponent<GOCGuideCircle>()->SetColor((GOCGuideCircle::Color)msgChangePlayer.newCharId);
 				}
 
 				overlayJobId = -1;
