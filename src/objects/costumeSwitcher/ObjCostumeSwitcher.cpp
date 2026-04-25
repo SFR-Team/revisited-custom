@@ -5,6 +5,7 @@ using namespace csl::fnd;
 using namespace hh::fnd;
 using namespace hh::game;
 using namespace hh::gfx;
+using namespace hh::physics;
 using namespace hh::ui;
 
 using namespace app;
@@ -91,6 +92,14 @@ void ObjCostumeSwitcher::AddCallback(GameManager* gameManager) {
 	auto* gocVisual = CreateComponent<GOCVisualModel>();
 	gocVisual->Setup(gocVisualModelDesc);
 	AddComponent(gocVisual);
+
+	GOCMeshCollider::SetupInfo gocMeshColDesc{};
+	gocMeshColDesc.meshResource = objInfo->col;
+	gocMeshColDesc.layer = GOCCollider::LayerType::SOLID;
+	gocMeshColDesc.hitFlags = 0x8000;
+	auto* gocMeshCol = CreateComponent<GOCMeshCollider>();
+	gocMeshCol->Setup(gocMeshColDesc);
+	AddComponent(gocMeshCol);
 
 	GOCContact::Description gocContactDesc{};
 	gocContactDesc.float64 = 3.1415927f;

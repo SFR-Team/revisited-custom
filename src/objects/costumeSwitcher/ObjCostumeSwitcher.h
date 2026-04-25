@@ -11,6 +11,7 @@ namespace revisited::objects {
 	class ObjCostumeSwitcherInfo : public hh::game::ObjInfo {
 	public:
 		hh::fnd::Reference<hh::gfx::ResModel> model;
+		hh::fnd::Reference<hh::physics::ResPhysicsMeshBullet> col;
 
 		OBJINFO_CLASS_DECLARATION(ObjCostumeSwitcherInfo);
 
