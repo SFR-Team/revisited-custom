@@ -92,17 +92,6 @@ void ObjCostumeSwitcher::AddCallback(GameManager* gameManager) {
 	gocVisual->Setup(gocVisualModelDesc);
 	AddComponent(gocVisual);
 
-	GOCGuideCircle::Description gocGuideCircleDesc{};
-	gocGuideCircleDesc.color = GOCGuideCircle::Color::BLUE;
-	gocGuideCircleDesc.showUpFar = true;
-	if (auto* levelInfo = gameManager->GetService<level::LevelInfo>())
-		if (auto* playerInfo = levelInfo->GetPlayerInformation(0))
-			if (playerInfo->characterId.has_value())
-				gocGuideCircleDesc.color = (GOCGuideCircle::Color)playerInfo->characterId.value();
-	auto* gocGuideCircle = CreateComponent<GOCGuideCircle>();
-	gocGuideCircle->Setup(gocGuideCircleDesc);
-	AddComponent(gocGuideCircle);
-
 	GOCContact::Description gocContactDesc{};
 	gocContactDesc.float64 = 3.1415927f;
 	gocContactDesc.visibleRange = 10;

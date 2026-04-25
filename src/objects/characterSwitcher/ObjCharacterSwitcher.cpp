@@ -37,6 +37,7 @@ void ObjCharacterSwitcher::AddCallback(GameManager* gameManager) {
 	gocVisualModelDesc.flags.bits = 0x2000000;
 	auto* gocVisual = CreateComponent<GOCVisualModel>();
 	gocVisual->Setup(gocVisualModelDesc);
+	gocVisual->SetNameHash("Body");
 	AddComponent(gocVisual);
 
 	GOCAnimator::SetupInfo gocAnimatorDesc{};
@@ -47,16 +48,29 @@ void ObjCharacterSwitcher::AddCallback(GameManager* gameManager) {
 	AddComponent(gocAnimator);
 	gocAnimator->ChangeState("idle");
 
-	GOCGuideCircle::Description gocGuideCircleDesc{};
-	gocGuideCircleDesc.color = GOCGuideCircle::Color::BLUE;
-	gocGuideCircleDesc.showUpFar = true;
-	if (auto* levelInfo = gameManager->GetService<level::LevelInfo>())
-		if (auto* playerInfo = levelInfo->GetPlayerInformation(0))
-			if (playerInfo->characterId.has_value())
-				gocGuideCircleDesc.color = (GOCGuideCircle::Color)playerInfo->characterId.value();
-	auto* gocGuideCircle = CreateComponent<GOCGuideCircle>();
-	gocGuideCircle->Setup(gocGuideCircleDesc);
-	AddComponent(gocGuideCircle);
+	/*auto* charIkInfo = new (GetAllocator()) CharacterIkInfo{GetAllocator()};
+	charIkInfo->lookAtIkInfo = new (GetAllocator()) LookAtIkInfo{ GetAllocator() };
+	auto lookAtIkInfo = charIkInfo->lookAtIkInfo;
+	lookAtIkInfo->maxLookDownAngle = -0.52359879f;
+	lookAtIkInfo->maxLookLeftAngle = 1.5707964f;
+	lookAtIkInfo->maxLookRightAngle = -1.5707964f;
+	lookAtIkInfo->headBoneIndex = skl->GetBoneIndex("Head");
+	lookAtIkInfo->neckBoneIndex = skl->GetBoneIndex("Neck");
+	lookAtIkInfo->bool78 = true;
+	lookAtIkInfo->SetLookAt(skl, { 0, 0, 1 }, { 0, 1, 0 });
+
+	GOCCharacterIkPxd::SetupInfo gocCharIkPxdDesc{};
+	gocCharIkPxdDesc.characterIkInfo = charIkInfo;
+	auto* gocCharIkPxd = CreateComponent<GOCCharacterIkPxd>();
+	gocCharIkPxd->Setup(gocCharIkPxdDesc);
+	gocCharIkPxd->SetNameHash("Body");
+	AddComponent(gocCharIkPxd);
+
+	GOCLookAt::SetupInfo gocLookAtDesc{};
+	gocLookAtDesc.gocCharacterIkNameHash = name_hash("Body");
+	auto* gocLookAt = CreateComponent<GOCLookAt>();
+	gocLookAt->Setup(gocLookAtDesc);
+	AddComponent(gocLookAt);*/
 
 	GOCContact::Description gocContactDesc{};
 	gocContactDesc.float64 = 3.1415927f;
@@ -134,6 +148,7 @@ void ObjCharacterSwitcher::CreateList() {
 
 	auto* overlayRequest = RequestOverlayCaptionSelectBox::Create(gameManager->GetAllocator());
 	overlayRequest->time = -1;
+	overlayRequest->subtitleText.copyFrom("egg_010");
 	for (unsigned char x = 0; x < 4; x++) {
 		if (x == (unsigned char)curCharId)
 			continue;
