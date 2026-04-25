@@ -6,6 +6,7 @@ using namespace hh::anim;
 using namespace hh::fnd;
 using namespace hh::game;
 using namespace hh::gfx;
+using namespace hh::physics;
 using namespace hh::ui;
 
 using namespace app;
@@ -47,6 +48,14 @@ void ObjCharacterSwitcher::AddCallback(GameManager* gameManager) {
 	gocAnimator->Setup(gocAnimatorDesc);
 	AddComponent(gocAnimator);
 	gocAnimator->ChangeState("idle");
+
+	GOCSphereCollider::SetupInfo gocSphereColDesc{};
+	gocSphereColDesc.layer = GOCCollider::LayerType::SENSOR_PLAYER;
+	gocSphereColDesc.radius = 1;
+	gocSphereColDesc.hitFlags = 0x8000;
+	auto* gocSphereCol = CreateComponent<GOCSphereCollider>();
+	gocSphereCol->Setup(gocSphereColDesc);
+	AddComponent(gocSphereCol);
 
 	/*auto* charIkInfo = new (GetAllocator()) CharacterIkInfo{GetAllocator()};
 	charIkInfo->lookAtIkInfo = new (GetAllocator()) LookAtIkInfo{ GetAllocator() };
