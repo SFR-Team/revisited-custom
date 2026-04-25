@@ -10,7 +10,7 @@ using namespace hh::snd;
 
 using namespace revisited::objects;
 
-OBJINFO_CLASS(ObjBigThornBallInfo)
+OBJINFO_CLASS(ObjBigThornBallInfo, ObjBigThornBall)
 
 ObjInfo* ObjBigThornBallInfo::Create(IAllocator* allocator) {
 	return new (std::align_val_t(16), allocator) ObjBigThornBallInfo{ allocator };

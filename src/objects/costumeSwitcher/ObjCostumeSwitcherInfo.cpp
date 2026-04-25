@@ -9,7 +9,7 @@ using namespace hh::physics;
 
 using namespace revisited::objects;
 
-OBJINFO_CLASS(ObjCostumeSwitcherInfo)
+OBJINFO_CLASS(ObjCostumeSwitcherInfo, ObjCostumeSwitcher)
 
 ObjInfo* ObjCostumeSwitcherInfo::Create(IAllocator* allocator) {
 	return new (allocator) ObjCostumeSwitcherInfo{ allocator };

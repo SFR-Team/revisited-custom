@@ -9,7 +9,7 @@ using namespace hh::game;
 
 using namespace revisited::objects;
 
-OBJINFO_CLASS(ObjCharacterSwitcherInfo)
+OBJINFO_CLASS(ObjCharacterSwitcherInfo, ObjCharacterSwitcher)
 
 ObjInfo* ObjCharacterSwitcherInfo::Create(IAllocator* allocator) {
 	return new (allocator) ObjCharacterSwitcherInfo{ allocator };

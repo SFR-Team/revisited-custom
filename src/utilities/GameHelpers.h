@@ -123,9 +123,9 @@ static Eigen::Affine3f TransformToAffine3f(const csl::math::Transform& transform
         return &gameObjectClass; \
     }
 
-#define OBJINFO_CLASS(NAME) \
+#define OBJINFO_CLASS(NAME, OBJNAME) \
     const ObjInfoClass NAME##::objInfoClass{ \
-        #NAME, \
+        #OBJNAME, \
         &NAME##::Create \
     }; \
     const char* NAME##::GetInfoName(){ \

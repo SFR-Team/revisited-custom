@@ -10,7 +10,7 @@ using namespace hh::snd;
 
 using namespace revisited::objects;
 
-OBJINFO_CLASS(ObjItemBoxInfo)
+OBJINFO_CLASS(ObjItemBoxInfo, ObjItemBox)
 
 ObjInfo* ObjItemBoxInfo::Create(IAllocator* allocator) {
 	return new (std::align_val_t(16), allocator) ObjItemBoxInfo{ allocator };
