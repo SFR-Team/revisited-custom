@@ -18,7 +18,7 @@ using namespace app::player;
 using namespace revisited::objects;
 
 
-GAMEOBJECT_CLASS_RFL_OBJINFO(ObjBigThornBall, ObjBigThornBallInfo, Common);
+GAMEOBJECT_CLASS_RFL_OBJINFO(ObjBigThornBall, Common);
 
 GameObject* ObjBigThornBall::Create(IAllocator* allocator) {
 	return new (std::align_val_t(16), allocator) ObjBigThornBall{ allocator };

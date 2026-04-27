@@ -72,7 +72,7 @@ static CostumeDescription costumeDescriptions[]{
 	}
 };
 
-GAMEOBJECT_CLASS_RFL_OBJINFO(ObjCostumeSwitcher, ObjCostumeSwitcherInfo, Common);
+GAMEOBJECT_CLASS_RFL_OBJINFO(ObjCostumeSwitcher, Common);
 
 GameObject* ObjCostumeSwitcher::Create(IAllocator* allocator) {
 	return new (allocator) ObjCostumeSwitcher{ allocator };

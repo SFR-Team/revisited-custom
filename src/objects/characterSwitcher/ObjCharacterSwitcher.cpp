@@ -16,7 +16,7 @@ using namespace app::ui;
 
 using namespace revisited::objects;
 
-GAMEOBJECT_CLASS_RFL_OBJINFO(ObjCharacterSwitcher, ObjCharacterSwitcherInfo, Common);
+GAMEOBJECT_CLASS_RFL_OBJINFO(ObjCharacterSwitcher, Common);
 
 GameObject* ObjCharacterSwitcher::Create(IAllocator* allocator) {
 	return new (allocator) ObjCharacterSwitcher{ allocator };
