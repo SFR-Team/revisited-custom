@@ -13,9 +13,10 @@ HOOK(uint64_t, __fastcall, GameModeBootInit, 0x1401AADF0, app::game::GameMode* s
 	return res;
 }
 
+static hh::fnd::ResourceLoader* resLoader{ nullptr };
 HOOK(uint64_t, __fastcall, LevelManagerSetup, 0x150407480, hh::game::LevelManager* self, int64_t setupInfo) {
 	auto res = originalLevelManagerSetup(self, setupInfo);
-	hh::fnd::ResourceLoader* resLoader = hh::fnd::ResourceLoader::Create(self->GetAllocator());
+	if (!resLoader) resLoader = hh::fnd::ResourceLoader::Create(self->GetAllocator());
 	resLoader->LoadPackfile("hedgehog/level/revisited.levels");
 	return res;
 }

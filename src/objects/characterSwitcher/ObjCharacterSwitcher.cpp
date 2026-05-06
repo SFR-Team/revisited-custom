@@ -51,7 +51,7 @@ void ObjCharacterSwitcher::AddCallback(GameManager* gameManager) {
 
 	GOCSphereCollider::SetupInfo gocSphereColDesc{};
 	gocSphereColDesc.layer = GOCCollider::LayerType::SOLID;
-	gocSphereColDesc.radius = 2;
+	gocSphereColDesc.radius = 1.5f;
 	gocSphereColDesc.hitFlags = 0x8000;
 	auto* gocSphereCol = CreateComponent<GOCSphereCollider>();
 	gocSphereCol->Setup(gocSphereColDesc);
