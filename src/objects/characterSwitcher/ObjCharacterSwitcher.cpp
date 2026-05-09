@@ -57,30 +57,6 @@ void ObjCharacterSwitcher::AddCallback(GameManager* gameManager) {
 	gocSphereCol->Setup(gocSphereColDesc);
 	AddComponent(gocSphereCol);
 
-	/*auto* charIkInfo = new (GetAllocator()) CharacterIkInfo{GetAllocator()};
-	charIkInfo->lookAtIkInfo = new (GetAllocator()) LookAtIkInfo{ GetAllocator() };
-	auto lookAtIkInfo = charIkInfo->lookAtIkInfo;
-	lookAtIkInfo->maxLookDownAngle = -0.52359879f;
-	lookAtIkInfo->maxLookLeftAngle = 1.5707964f;
-	lookAtIkInfo->maxLookRightAngle = -1.5707964f;
-	lookAtIkInfo->headBoneIndex = skl->GetBoneIndex("Head");
-	lookAtIkInfo->neckBoneIndex = skl->GetBoneIndex("Neck");
-	lookAtIkInfo->bool78 = true;
-	lookAtIkInfo->SetLookAt(skl, { 0, 0, 1 }, { 0, 1, 0 });
-
-	GOCCharacterIkPxd::SetupInfo gocCharIkPxdDesc{};
-	gocCharIkPxdDesc.characterIkInfo = charIkInfo;
-	auto* gocCharIkPxd = CreateComponent<GOCCharacterIkPxd>();
-	gocCharIkPxd->Setup(gocCharIkPxdDesc);
-	gocCharIkPxd->SetNameHash("Body");
-	AddComponent(gocCharIkPxd);
-
-	GOCLookAt::SetupInfo gocLookAtDesc{};
-	gocLookAtDesc.gocCharacterIkNameHash = name_hash("Body");
-	auto* gocLookAt = CreateComponent<GOCLookAt>();
-	gocLookAt->Setup(gocLookAtDesc);
-	AddComponent(gocLookAt);*/
-
 	GOCContact::Description gocContactDesc{};
 	gocContactDesc.float64 = 3.1415927f;
 	gocContactDesc.visibleRange = 10;
@@ -123,6 +99,21 @@ void ObjCharacterSwitcher::UpdateAsync(UpdatingPhase phase, const SUpdateInfo& u
 			}
 		}
 	}
+
+	// Rotate to player
+	static constexpr float rotationSpeed = 5;
+
+	auto* model = GetComponent<hh::gfx::GOCVisualModel>();
+	auto worldMat = TransformToAffine3f(model->frame2->fullTransform);
+	auto worldPos = worldMat * Eigen::Vector3f{ 0.0f, 0.0f, 0.0f };
+	auto& modelPos = model->frame2->fullTransform.position;
+
+	auto* gocTransform = GetPlayer()->GetComponent<hh::game::GOCTransform>();
+	auto& objPos = gocTransform->frame->fullTransform.position;
+
+	float t = 1.0f - exp(-rotationSpeed * updateInfo.deltaTime);
+
+	model->SetLocalRotation({ Eigen::Quaternionf::FromTwoVectors(Eigen::Vector3f{ 0.0f, 0.0f, 1.0f }, worldMat.inverse() * Eigen::Vector3f{ objPos.x(), modelPos.y(), objPos.z() }) });
 };
  
 void ObjCharacterSwitcher::OnContact() {

@@ -30,6 +30,7 @@ namespace revisited::objects {
 		virtual void AddCallback(hh::game::GameManager* gameManager) override;
 		virtual void UpdateAsync(hh::fnd::UpdatingPhase phase, const hh::fnd::SUpdateInfo& updateInfo, void* unkParam) override;
 		virtual void OnContact() override;
+
 		void CreateList();
 		void SpawnPlayer(app::player::CharacterIdU8 charId);
 		void AddExitOption(app::ui::RequestOverlayCaptionSelectBox* overlay);
