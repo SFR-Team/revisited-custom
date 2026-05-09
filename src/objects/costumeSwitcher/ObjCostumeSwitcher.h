@@ -49,6 +49,7 @@ namespace revisited::objects {
 		unsigned char page{ 0 };
 		bool lastPage{ false };
 		int overlayJobId{ -1 };
+		char selectedSkinIdx{ -1 };
 	public:
 		virtual void AddCallback(hh::game::GameManager* gameManager) override;
 		virtual void UpdateAsync(hh::fnd::UpdatingPhase phase, const hh::fnd::SUpdateInfo& updateInfo, void* unkParam) override;
@@ -57,5 +58,6 @@ namespace revisited::objects {
 		void AddNextOption(app::ui::RequestOverlayCaptionSelectBox* overlay);
 		void AddExitOption(app::ui::RequestOverlayCaptionSelectBox* overlay);
 		void RespawnPlayer();
+		void EndInteraction();
 	};
 }

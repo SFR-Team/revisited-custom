@@ -13,7 +13,7 @@ const RflClassMember spawnerMembers[]{
 RFL_CLASS(ObjCostumeSwitcherSpawner);
 
 RFL_TYPE_INFO_FUNCS(ObjCostumeSwitcherSpawner, {
-	self->interactionRange = 0;
+	self->interactionRange = 2;
 });
 
 RFL_TYPE_INFO(ObjCostumeSwitcherSpawner)

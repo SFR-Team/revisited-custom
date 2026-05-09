@@ -116,6 +116,43 @@ void ObjCostumeSwitcher::AddCallback(GameManager* gameManager) {
 }
 
 void ObjCostumeSwitcher::UpdateAsync(UpdatingPhase phase, const SUpdateInfo& updateInfo, void* unkParam) {
+	auto* screenFade = gameManager->GetService<ScreenFadeManager>();
+	if (screenFade->IsFading()) {
+		auto& costumeDesc = costumeDescriptions[selectedSkinIdx];
+
+		OptionAc optionAc{ GetOptionAccessor(gameManager) };
+		OptionGamePlayAc optionGamePlay{ optionAc.GetOptionGamePlayAc() };
+		auto& prevCostumeDesc = costumeDescriptions[optionGamePlay.data->dlcSonicCostume];
+
+		optionGamePlay.data->dlcSonicCostume = costumeDesc.saveId;
+		gameManager->GetService<SaveManager>()->saveInterface->SaveOptionData();
+
+		if (auto* levelManager = gameManager->GetService<LevelManager>())
+		{
+			if (prevCostumeDesc.levelName)
+				levelManager->UnloadLevel(prevCostumeDesc.levelName);
+			if (costumeDesc.levelName) {
+				auto* level = levelManager->GetLevelByName(costumeDesc.levelName);
+				auto* mlevelData = level->masterLevel->resource->masterLevelData;
+				auto* levels = mlevelData->levels;
+				auto levelCount = mlevelData->levelCount;
+				for (auto x = 0; x < levelCount; x++)
+					if (strcmp(levels[x]->name, costumeDesc.levelName) == 0) {
+						ResourceLoader::Locale locale{};
+						locale.localeId = 1;
+						level->resourceLoader->LoadPackfile(levels[x]->resources[0]->path, locale);
+					}
+				levelManager->LoadLevel(costumeDesc.levelName);
+			}
+		}
+
+		EndInteraction();
+		RespawnPlayer();
+		selectedSkinIdx = -1;
+
+		screenFade->Fade(0);
+	}
+
 	if (overlayJobId != -1) {
 		UIOverlayService::OverlayJobStatus status{};
 		status.unk0 = true;
@@ -125,39 +162,15 @@ void ObjCostumeSwitcher::UpdateAsync(UpdatingPhase phase, const SUpdateInfo& upd
 				auto& option = options[status.selectionIdx];
 
 				if (option.type == Option::Type::SKIN) {
-					auto& costumeDesc = costumeDescriptions[option.skinIdx];
-
 					OptionAc optionAc{ GetOptionAccessor(gameManager) };
 					OptionGamePlayAc optionGamePlay{ optionAc.GetOptionGamePlayAc() };
-					auto& prevCostumeDesc = costumeDescriptions[optionGamePlay.data->dlcSonicCostume];
-
-					optionGamePlay.data->dlcSonicCostume = costumeDesc.saveId;
-					gameManager->GetService<SaveManager>()->saveInterface->SaveOptionData();
-
-					if (auto* levelManager = gameManager->GetService<LevelManager>())
-					{
-						if (prevCostumeDesc.levelName)
-							levelManager->UnloadLevel(prevCostumeDesc.levelName);
-						if (costumeDesc.levelName) {
-							auto* level = levelManager->GetLevelByName(costumeDesc.levelName);
-							auto* mlevelData = level->masterLevel->resource->masterLevelData;
-							auto* levels = mlevelData->levels;
-							auto levelCount = mlevelData->levelCount;
-							for (auto x = 0; x < levelCount; x++)
-								if (strcmp(levels[x]->name, costumeDesc.levelName) == 0) {
-									ResourceLoader::Locale locale{};
-									locale.localeId = 1;
-									level->resourceLoader->LoadPackfile(levels[x]->resources[0]->path, locale);
-								}
-							levelManager->LoadLevel(costumeDesc.levelName);
-						}
+					if (optionGamePlay.data->dlcSonicCostume != option.skinIdx) {
+						screenFade->FadeOut(1.3f);
+						selectedSkinIdx = option.skinIdx;
 					}
-
-					player::MsgHoldRelease holdEndMsg{};
-					ut::SendMessageImmToPlayerObject(*this, 0, holdEndMsg);
-					GetComponent<GOCContact>()->SetEnabled(true);
-
-					RespawnPlayer();
+					else {
+						EndInteraction();
+					}
 
 					overlayJobId = -1;
 				}
@@ -290,4 +303,10 @@ void ObjCostumeSwitcher::RespawnPlayer() {
 				player::MsgAddNotifyPreDeadListener msgAddNotifyPreDeadListener{};
 				ut::SendMessageToPlayerObject(*gameMode, gameManager, 0, msgAddNotifyPreDeadListener);
 			}
+}
+
+void ObjCostumeSwitcher::EndInteraction() {
+	player::MsgHoldRelease holdEndMsg{};
+	ut::SendMessageImmToPlayerObject(*this, 0, holdEndMsg);
+	GetComponent<GOCContact>()->SetEnabled(true);
 }
