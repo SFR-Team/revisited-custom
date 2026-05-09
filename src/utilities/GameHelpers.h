@@ -1,6 +1,11 @@
 #pragma once
 
-static app::player::Player* GetPlayer() { return ((app::player::Player*)hh::game::GameManager::GetInstance()->gameObjectLayers[11]->objects[0]); }
+static app::player::Player* GetPlayer() { 
+    if (hh::game::GameManager::GetInstance()->gameObjectLayers[11]->objects.size() > 0)
+        return ((app::player::Player*)hh::game::GameManager::GetInstance()->gameObjectLayers[11]->objects[0]);
+    else
+        return nullptr;
+}
 
 static Eigen::Affine3f TransformToAffine3f(const csl::math::Transform& transform) {
 	Eigen::Affine3f affine;

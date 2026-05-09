@@ -26,6 +26,7 @@ namespace revisited::objects {
 
 		csl::ut::InplaceMoveArray32<app::player::CharacterIdU8, 3> options;
 		int overlayJobId{ -1 };
+		char selectedOption{ -1 };
 	public:
 		virtual void AddCallback(hh::game::GameManager* gameManager) override;
 		virtual void UpdateAsync(hh::fnd::UpdatingPhase phase, const hh::fnd::SUpdateInfo& updateInfo, void* unkParam) override;

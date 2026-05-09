@@ -72,6 +72,22 @@ void ObjCharacterSwitcher::AddCallback(GameManager* gameManager) {
 }
 
 void ObjCharacterSwitcher::UpdateAsync(UpdatingPhase phase, const SUpdateInfo& updateInfo, void* unkParam) {
+	auto* screenFade = gameManager->GetService<ScreenFadeManager>();
+	if (screenFade->IsFading()) {
+		MsgChangePlayerCharacter msgChangePlayer{};
+		msgChangePlayer.newCharId = options[selectedOption];
+		gameManager->SendMessageImm(msgChangePlayer);
+		SpawnPlayer(msgChangePlayer.newCharId);
+
+		player::MsgHoldRelease holdEndMsg{};
+		ut::SendMessageImmToPlayerObject(*this, 0, holdEndMsg);
+
+		GetComponent<GOCContact>()->SetEnabled(true);
+		selectedOption = -1;
+
+		screenFade->Fade(0);
+	}
+
 	if (overlayJobId != -1) {
 		UIOverlayService::OverlayJobStatus status{};
 		status.unk0 = true;
@@ -84,15 +100,8 @@ void ObjCharacterSwitcher::UpdateAsync(UpdatingPhase phase, const SUpdateInfo& u
 					GetComponent<GOCContact>()->SetEnabled(true);
 				}
 				else {
-					MsgChangePlayerCharacter msgChangePlayer{};
-					msgChangePlayer.newCharId = options[status.selectionIdx];
-					gameManager->SendMessageImm(msgChangePlayer);
-					SpawnPlayer(msgChangePlayer.newCharId);
-
-					player::MsgHoldRelease holdEndMsg{};
-					ut::SendMessageImmToPlayerObject(*this, 0, holdEndMsg);
-
-					GetComponent<GOCContact>()->SetEnabled(true);
+					screenFade->FadeOut(1.3f);
+					selectedOption = status.selectionIdx;
 				}
 
 				overlayJobId = -1;
@@ -101,6 +110,8 @@ void ObjCharacterSwitcher::UpdateAsync(UpdatingPhase phase, const SUpdateInfo& u
 	}
 
 	// Rotate to player
+	if (!GetPlayer()) return;
+
 	static constexpr float rotationSpeed = 5;
 
 	auto* model = GetComponent<hh::gfx::GOCVisualModel>();
