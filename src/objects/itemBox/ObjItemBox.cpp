@@ -29,7 +29,7 @@ GameObject* ObjItemBox::Create(IAllocator* allocator) {
 
 ObjItemBox::ObjItemBox(IAllocator* allocator) : GameObject{ allocator }, type{ ObjItemBoxSpawner::ItemType::ROCKET } {
 	SetLayer(6);
-	SetUpdateFlag(UpdatingPhase::PRE_ANIM, true);
+	SetUpdateFlag(UpdatingPhase::POST_ANIM, true);
 	SetPropertyFlag(this, 0x5001, 0);
 }
 
@@ -128,7 +128,7 @@ void ObjItemBox::AddCallback(GameManager* gameManager)
 	AddComponent(gocVibration);
 }
 
-void ObjItemBox::Update(UpdatingPhase phase, const SUpdateInfo& updateInfo)
+void ObjItemBox::UpdateAsync(UpdatingPhase phase, const SUpdateInfo& updateInfo, void* unkParam)
 {
 	animationTimer.Add(updateInfo.deltaTime);
 	if (auto* gocAnim = GetComponent<GOCAnimationSimple>())
@@ -203,9 +203,8 @@ void ObjItemBox::DestroyCallback()
 
 void ObjItemBox::PostDestroyCallback()
 {
-	status->SetObjectState(0, false);
-	GetComponent<GOCActivator>()->enabled = false;
 	GetComponent<GOCVisualModel>()->SetVisible(false);
+	status->SetObjectState(0, false);
 }
 
 void ObjItemBox::GiveObject(unsigned int amount, MsgTakeObject::Type type)
