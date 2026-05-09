@@ -73,7 +73,7 @@ void ObjCharacterSwitcher::AddCallback(GameManager* gameManager) {
 
 void ObjCharacterSwitcher::UpdateAsync(UpdatingPhase phase, const SUpdateInfo& updateInfo, void* unkParam) {
 	auto* screenFade = gameManager->GetService<ScreenFadeManager>();
-	if (screenFade->IsFading()) {
+	if (screenFade->IsFading() && selectedOption != -1) {
 		MsgChangePlayerCharacter msgChangePlayer{};
 		msgChangePlayer.newCharId = options[selectedOption];
 		gameManager->SendMessageImm(msgChangePlayer);

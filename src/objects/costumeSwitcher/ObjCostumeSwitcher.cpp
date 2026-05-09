@@ -117,7 +117,7 @@ void ObjCostumeSwitcher::AddCallback(GameManager* gameManager) {
 
 void ObjCostumeSwitcher::UpdateAsync(UpdatingPhase phase, const SUpdateInfo& updateInfo, void* unkParam) {
 	auto* screenFade = gameManager->GetService<ScreenFadeManager>();
-	if (screenFade->IsFading()) {
+	if (screenFade->IsFading() && selectedSkinIdx != -1) {
 		auto& costumeDesc = costumeDescriptions[selectedSkinIdx];
 
 		OptionAc optionAc{ GetOptionAccessor(gameManager) };
