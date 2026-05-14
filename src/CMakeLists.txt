@@ -17,6 +17,8 @@ target_sources(mod
         objects/characterSwitcher/ObjCharacterSwitcher.cpp
         objects/characterSwitcher/ObjCharacterSwitcherSpawner.cpp
         objects/characterSwitcher/ObjCharacterSwitcherInfo.cpp
+        objects/doorWarpTrigger/ObjDoorWarpTrigger.cpp
+        objects/doorWarpTrigger/ObjDoorWarpTriggerSpawner.cpp
         objects/itemBox/ObjItemBox.cpp
         objects/itemBox/ObjItemBoxInfo.cpp
         objects/itemBox/ObjItemBoxSpawner.cpp
@@ -38,6 +40,7 @@ target_sources(mod
         objects/gimmicks/ObjBigThornBall.h
         objects/costumeSwitcher/ObjCostumeSwitcher.h
         objects/characterSwitcher/ObjCharacterSwitcher.h
+        objects/doorWarpTrigger/ObjDoorWarpTrigger.h
         objects/itemBox/ObjItemBox.h
         objects/itemBox/UIItemBox.h
         objects/titlecard/UIStageIntro.h

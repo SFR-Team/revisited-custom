@@ -3,6 +3,7 @@
 #include "gimmicks/ObjBigThornBall.h"
 #include "costumeSwitcher/ObjCostumeSwitcher.h"
 #include "characterSwitcher/ObjCharacterSwitcher.h"
+#include "doorWarpTrigger/ObjDoorWarpTrigger.h"
 #include "itemBox/ObjItemBox.h"
 #include "itemBox/UIItemBox.h"
 #include "ObjHomingGismo.h"
@@ -52,6 +53,7 @@ namespace revisited::objects {
 		registerRFL<ObjBigThornBallSpawner>();
 		registerRFL<ObjCostumeSwitcherSpawner>();
 		registerRFL<ObjCharacterSwitcherSpawner>();
+		registerRFL<ObjDoorWarpTriggerSpawner>();
 		registerRFL<StageIntro>();
 		registerRFL<Stage>();
 		registerObjInfo<ObjItemBoxInfo>();
@@ -63,6 +65,7 @@ namespace revisited::objects {
 		registerObject<ObjBigThornBall>();
 		registerObject<ObjCostumeSwitcher>();
 		registerObject<ObjCharacterSwitcher>();
+		registerObject<ObjDoorWarpTrigger>();
 
 		auto* allocator = hh::fnd::MemoryRouter::GetModuleAllocator();
 		auto* resLoader = hh::fnd::ResourceLoader::Create(allocator);
