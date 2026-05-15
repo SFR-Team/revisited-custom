@@ -150,7 +150,7 @@ void ObjCostumeSwitcher::UpdateAsync(UpdatingPhase phase, const SUpdateInfo& upd
 		RespawnPlayer();
 		selectedSkinIdx = -1;
 
-		screenFade->Fade(0);
+		screenFade->Fade(0.7f);
 	}
 
 	if (overlayJobId != -1) {

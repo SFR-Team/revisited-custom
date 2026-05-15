@@ -86,7 +86,7 @@ void ObjCharacterSwitcher::UpdateAsync(UpdatingPhase phase, const SUpdateInfo& u
 		GetComponent<GOCContact>()->SetEnabled(true);
 		selectedOption = -1;
 
-		screenFade->Fade(0);
+		screenFade->Fade(0.7f);
 	}
 
 	if (overlayJobId != -1) {
