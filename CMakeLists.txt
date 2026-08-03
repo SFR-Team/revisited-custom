@@ -5,7 +5,7 @@ project(revisited-custom VERSION 1.0.0
 
 set(PROJECT_AUTHOR "Ashrindy")
 set(PROJECT_LONG_DESCRIPTION "Revisited Custom")
-set(PROJECT_COPYRIGHT "Copyright (c) 2025 Ashrindy - Licensed under GPL3")
+set(PROJECT_COPYRIGHT "Copyright (c) 2026 Ashrindy - Licensed under GPL3")
 set(PROJECT_AUTHOR_URL "https://github.com/Ashrindy")
 string(TIMESTAMP PROJECT_BUILD_DATE "%Y-%m-%d")
 
