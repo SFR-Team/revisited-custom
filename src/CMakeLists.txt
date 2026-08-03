@@ -19,6 +19,10 @@ target_sources(mod
         objects/characterSwitcher/ObjCharacterSwitcherInfo.cpp
         objects/doorWarpTrigger/ObjDoorWarpTrigger.cpp
         objects/doorWarpTrigger/ObjDoorWarpTriggerSpawner.cpp
+        objects/airBubbles/ObjBubblesSpawner.cpp
+        objects/airBubbles/ObjBubblesSpawnerSpawner.cpp
+        objects/airBubbles/ObjBubblesSpawnerInfo.cpp
+        objects/airBubbles/ObjBubble.cpp
         objects/itemBox/ObjItemBox.cpp
         objects/itemBox/ObjItemBoxInfo.cpp
         objects/itemBox/ObjItemBoxSpawner.cpp
@@ -41,6 +45,8 @@ target_sources(mod
         objects/costumeSwitcher/ObjCostumeSwitcher.h
         objects/characterSwitcher/ObjCharacterSwitcher.h
         objects/doorWarpTrigger/ObjDoorWarpTrigger.h
+        objects/airBubbles/ObjBubblesSpawner.h
+        objects/airBubbles/ObjBubble.h
         objects/itemBox/ObjItemBox.h
         objects/itemBox/UIItemBox.h
         objects/titlecard/UIStageIntro.h

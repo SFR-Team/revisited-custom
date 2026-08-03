@@ -4,6 +4,7 @@
 #include "costumeSwitcher/ObjCostumeSwitcher.h"
 #include "characterSwitcher/ObjCharacterSwitcher.h"
 #include "doorWarpTrigger/ObjDoorWarpTrigger.h"
+#include "airBubbles/ObjBubblesSpawner.h"
 #include "itemBox/ObjItemBox.h"
 #include "itemBox/UIItemBox.h"
 #include "ObjHomingGismo.h"
@@ -54,18 +55,21 @@ namespace revisited::objects {
 		registerRFL<ObjCostumeSwitcherSpawner>();
 		registerRFL<ObjCharacterSwitcherSpawner>();
 		registerRFL<ObjDoorWarpTriggerSpawner>();
+		registerRFL<ObjBubblesSpawnerSpawner>();
 		registerRFL<StageIntro>();
 		registerRFL<Stage>();
 		registerObjInfo<ObjItemBoxInfo>();
 		registerObjInfo<ObjBigThornBallInfo>();
 		registerObjInfo<ObjCostumeSwitcherInfo>();
 		registerObjInfo<ObjCharacterSwitcherInfo>();
+		registerObjInfo<ObjBubblesSpawnerInfo>();
 		registerObject<ObjItemBox>();
 		registerObject<ObjHomingGismo>();
 		registerObject<ObjBigThornBall>();
 		registerObject<ObjCostumeSwitcher>();
 		registerObject<ObjCharacterSwitcher>();
 		registerObject<ObjDoorWarpTrigger>();
+		registerObject<ObjBubblesSpawner>();
 
 		auto* allocator = hh::fnd::MemoryRouter::GetModuleAllocator();
 		auto* resLoader = hh::fnd::ResourceLoader::Create(allocator);
