@@ -2,6 +2,7 @@
 #include "BlackboardRevisited.h"
 #include "StateHooks.h"
 #include "CyberCyloop.h"
+#include "CyberAirTrick.h"
 
 HOOK(uint64_t, __fastcall, PlayerAddCallback, 0x140880810, app::player::Player* self, hh::game::GameManager* gameManager) {
 	auto res = originalPlayerAddCallback(self, gameManager);
@@ -40,6 +41,13 @@ HOOK(uint64_t, __fastcall, MessageHandler, 0x14091CF80, app::player::PlayerHsmCo
 	return originalMessageHandler(self, message);
 }
 
+HOOK(void, __fastcall, InitializePlayer, 0x14088AC20, app::player::Player* self) {
+	originalInitializePlayer(self);
+
+	revisited::player::initializePlayerCyberCyloop(self);
+	revisited::player::initializePlayerCyberAirTrick(self);
+}
+
 namespace revisited::player {
 	void bootstrap() {
 		auto* allocator = hh::fnd::MemoryRouter::GetModuleAllocator();
@@ -50,6 +58,7 @@ namespace revisited::player {
 
 		INSTALL_HOOK(PlayerAddCallback);
 		INSTALL_HOOK(MessageHandler);
+		INSTALL_HOOK(InitializePlayer);
 
 		bootstrapStates();
 		bootstrapCyberCyloop();
