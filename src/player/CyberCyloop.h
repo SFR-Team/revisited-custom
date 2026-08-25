@@ -13,9 +13,11 @@ HOOK(void, __fastcall, sub_1409A47E0, 0x1409A47E0, int64_t self) {
 namespace revisited::player {
 	inline void initializePlayerCyberCyloop(app::player::Player* self) {
 		auto& playerHsm = self->GetComponent<app::player::GOCPlayerHsm>()->statePluginManager;
-		auto* plugin = new (playerHsm->GetAllocator()) app::player::StatePluginCyloop{ playerHsm->GetAllocator() };
-		plugin->context = playerHsm->context;
-		playerHsm->AddPlugin(plugin);
+		if (!playerHsm->GetPlugin<app::player::StatePluginCyloop>()) {
+			auto* plugin = new (playerHsm->GetAllocator()) app::player::StatePluginCyloop{ playerHsm->GetAllocator() };
+			plugin->context = playerHsm->context;
+			playerHsm->AddPlugin(plugin);
+		}
 	}
 
 	inline void bootstrapCyberCyloop() {
