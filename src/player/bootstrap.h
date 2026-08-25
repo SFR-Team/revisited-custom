@@ -3,6 +3,7 @@
 #include "StateHooks.h"
 #include "CyberCyloop.h"
 #include "CyberAirTrick.h"
+#include "DimensionVolumeFix.h"
 
 HOOK(uint64_t, __fastcall, PlayerAddCallback, 0x140880810, app::player::Player* self, hh::game::GameManager* gameManager) {
 	auto res = originalPlayerAddCallback(self, gameManager);
@@ -62,5 +63,6 @@ namespace revisited::player {
 
 		bootstrapStates();
 		bootstrapCyberCyloop();
+		bootstrapDimensionVolumeFix();
 	}
 }
